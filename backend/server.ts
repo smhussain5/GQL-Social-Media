@@ -13,8 +13,8 @@ async function startApolloServer() {
     const server = new ApolloServer({ schema });
     const { url } = await startStandaloneServer(server);
     console.log(`
-    🚀 Serving is running!
-    Query @ ${url}!`
+    🚀 Server is running!
+    🔎 Query at ${url}`
     );
 }
 

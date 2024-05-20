@@ -5,18 +5,25 @@ const typeDefs = gql`
         id: ID!
         username: String!
         email: String!
-        password: String!
+        password: Int!
+        createdAt: String!
         posts: [Post!]
     }
     type Post {
         id: ID!
         body: String!
+        createdAt: Int!
         user: User!
         userId: String!
     }
     type Query {
-        getUsers: [User!]
-        getPosts: [Post!]
+        getAllUsers: [User!]
+        getSingleUser(userId: ID!): User
+        getAllPosts: [Post!]
+        getSinglePost(postId: ID!): Post
+    }
+    type Mutation {
+        deleteSinglePost(postId: ID!): Post
     }
 `;
 

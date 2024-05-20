@@ -14,16 +14,18 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String
-  email    String @unique
-  password String
-  posts    Post[]
+  id        String   @id @default(uuid())
+  username  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @db.Date
+  posts     Post[]
 }
 
 model Post {
-  id     String @id @default(uuid())
-  body   String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  id        String   @id @default(uuid())
+  body      String
+  createdAt DateTime @default(now()) @db.Timestamp()
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
