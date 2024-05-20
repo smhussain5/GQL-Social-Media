@@ -1,21 +1,21 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { typeDefs } from './graphql/typeDefs'
+import { resolvers } from './graphql/resolvers/resolvers'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 
-async function main() {
-    // Prisma queries here...
-    const user = await prisma.user.create({
-        data: {
-            username: "Shabab",
-            email: "shababhussain525@gmail.com"
-        }
-    });
-    console.log(user);
+const schema = makeExecutableSchema({
+    resolvers,
+    typeDefs,
+});
+
+async function startApolloServer() {
+    const server = new ApolloServer({ schema });
+    const { url } = await startStandaloneServer(server);
+    console.log(`
+    🚀 Serving is running!
+    Query @ ${url}!`
+    );
 }
 
-main()
-    .catch(e => {
-        console.log(e)
-    })
-    .finally(async () => {
-        await prisma.$disconnect()
-    })
+startApolloServer();
