@@ -12,7 +12,6 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.12",
-    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.10.5",
     "typescript": "^5.4.5"
@@ -20,8 +19,11 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "@prisma/client": "^5.14.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2",
     "prisma": "^5.14.0"
   }
 }
