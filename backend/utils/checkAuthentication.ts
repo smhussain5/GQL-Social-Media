@@ -1,1 +1,5 @@
-console.log("checkAuthentication");
+function checkAuthentication() {
+    console.log("checkAuthentication");
+};
+
+export { checkAuthentication };
