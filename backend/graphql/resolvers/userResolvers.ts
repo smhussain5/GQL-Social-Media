@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { loginValidationChecker, registrationValidationChecker } from '../../utils/validationChecker';
 import { PrismaClient } from '@prisma/client';
+import { GraphQLError } from 'graphql'
 const prisma = new PrismaClient();
 
 const userResolvers = {
@@ -8,8 +10,8 @@ const userResolvers = {
         // GET ALL USERS
         async getAllUsers() {
             try {
-                const users = await prisma.user.findMany();
-                return users;
+                const usersDataBase = await prisma.user.findMany();
+                return usersDataBase;
             } catch (err) {
                 throw new Error(String(err));
             }
@@ -17,40 +19,75 @@ const userResolvers = {
         // GET USER BY ID
         async getSingleUser(_, { userId }) {
             try {
-                const user = await prisma.user.findUnique(
+                const userDataBase = await prisma.user.findUnique(
                     {
                         where: {
                             id: userId,
                         }
                     }
                 );
-                return user;
+                return userDataBase;
             } catch (err) {
                 throw new Error(String(err));
             }
         }
     },
     Mutation: {
-        async loginUser() {
-
+        // LOGIN EXISTING USER
+        async loginUser(_, { loginInput: { username, password } }) {
+            const { errors, valid } = loginValidationChecker(username, password);
+            if (!valid) {
+                throw new GraphQLError("Errors!", { extensions: { errors } });
+            }
         },
+        // REGSITER NEW USER
         async registerUser(_, { registrationInput: { username, password, confirmPassword, email } }) {
-            // 1. CHECK IF USERNAME IS EMPTY
-            // 2. CHECK IF PASSWORD IS EMPTY
-            // 3. CHECK IF EMAIL IS EMPTY
-            // 4. CHECK IF PASSWORDS DO NOT MATCH
-            // 5. MAKE SURE USERNAME DOES NOT ALREADY EXIST
-            // 6. MAKE SURE EMAIL DOES NOT ALREADY EXIST
-            // 7. HASH PASSWORDS
+            // VALIDATE VIA registrationValidationChecker() FUNCTION
+            const { errors, valid } = registrationValidationChecker(username, password, confirmPassword, email);
+            if (!valid) {
+                throw new GraphQLError("Errors!", { extensions: { errors } });
+            }
+            const userDataBase = await prisma.user.findFirst(
+                {
+                    where: {
+                        username: username.toUpperCase(),
+                    }
+                }
+            );
+            if (userDataBase) {
+                throw new GraphQLError("Errors!", {
+                    extensions: {
+                        errors: {
+                            "USERNAME": "This username is taken!"
+                        }
+                    }
+                })
+            }
+            const emailDataBase = await prisma.user.findFirst(
+                {
+                    where: {
+                        email: email.toUpperCase(),
+                    }
+                }
+            );
+            if (emailDataBase) {
+                throw new GraphQLError("Errors!", {
+                    extensions: {
+                        errors: {
+                            "EMAIL": "This email is taken!"
+                        }
+                    }
+                })
+            }
+            // HASH PASSWORD
             password = await bcrypt.hash(password, 12);
-            // 8. GENERATE JWT
-            // 9. STORE USER
+            // STORE USER
             try {
                 const user = await prisma.user.create({
                     data: {
-                        username: username,
+                        username: username.toUpperCase(),
                         password: password,
-                        email: email,
+                        email: email.toUpperCase(),
                         createdAt: new Date().toISOString(),
                         token: jwt.sign({
                             username: username,

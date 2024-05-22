@@ -6,8 +6,8 @@ const postResolvers = {
         // GET ALL POSTS
         async getAllPosts() {
             try {
-                const posts = await prisma.post.findMany();
-                return posts;
+                const postsDataBase = await prisma.post.findMany();
+                return postsDataBase;
             } catch (err) {
                 throw new Error(String(err));
             }
@@ -15,12 +15,12 @@ const postResolvers = {
         // GET POST BY ID
         async getSinglePost(_, { postId }) {
             try {
-                const post = await prisma.post.findUnique({
+                const postDataBase = await prisma.post.findUnique({
                     where: {
                         id: postId,
                     }
                 });
-                return post;
+                return postDataBase;
             } catch (err) {
                 throw new Error(String(err));
             }
@@ -30,12 +30,12 @@ const postResolvers = {
         // DELETE POST BY ID
         async deleteSinglePost(_, { postId }) {
             try {
-                const post = await prisma.post.delete({
+                const postDataBase = await prisma.post.delete({
                     where: {
                         id: postId,
                     }
                 });
-                return post;
+                return postDataBase;
             } catch (err) {
                 throw new Error(String(err));
             }
