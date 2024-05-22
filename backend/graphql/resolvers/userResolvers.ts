@@ -35,6 +35,7 @@ const userResolvers = {
     Mutation: {
         // LOGIN EXISTING USER
         async loginUser(_, { loginInput: { username, password } }) {
+            // VALIDATE VIA loginValidationChecker() FUNCTION
             const { errors, valid } = loginValidationChecker(username, password);
             if (!valid) {
                 throw new GraphQLError("Errors!", { extensions: { errors } });
@@ -47,6 +48,7 @@ const userResolvers = {
             if (!valid) {
                 throw new GraphQLError("Errors!", { extensions: { errors } });
             }
+            // CHECK IF USERNAME ALREADY EXISTS
             const userDataBase = await prisma.user.findFirst(
                 {
                     where: {
@@ -63,6 +65,7 @@ const userResolvers = {
                     }
                 })
             }
+            // CHECK IF EMAIL ALREADY EXISTS
             const emailDataBase = await prisma.user.findFirst(
                 {
                     where: {
