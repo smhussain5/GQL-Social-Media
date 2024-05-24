@@ -40,6 +40,49 @@ const userResolvers = {
             if (!valid) {
                 throw new GraphQLError("Errors!", { extensions: { errors } });
             }
+            // CHECK IF USER EXISTS
+            const userDataBase = await prisma.user.findFirst(
+                {
+                    where: {
+                        username: username.toUpperCase(),
+                    }
+                }
+            )
+            if (!userDataBase) {
+                throw new GraphQLError("Errors!", {
+                    extensions: {
+                        errors: {
+                            "USERNAME/PASSWORD": "Wrong username/password!"
+                        }
+                    }
+                })
+            }
+            // CHECK IF PASSWORD MATCHES DATABASE PASSWORD
+            const passwordMatch = await bcrypt.compare(password, userDataBase.password);
+            if (!passwordMatch) {
+                throw new GraphQLError("Errors!", {
+                    extensions: {
+                        errors: {
+                            "USERNAME/PASSWORD": "Wrong username/password!"
+                        }
+                    }
+                })
+            }
+            // UPDATE WITH NEW TOKEN
+            const jwtUpdate = await prisma.user.update(
+                {
+                    where: {
+                        id: userDataBase.id,
+                    },
+                    data: {
+                        token: jwt.sign({
+                            username: userDataBase.username,
+                            email: userDataBase.email,
+                        }, process.env.SECRET_KEY, { expiresIn: '1h' })
+                    }
+                }
+            )
+            return jwtUpdate;
         },
         // REGSITER NEW USER
         async registerUser(_, { registrationInput: { username, password, confirmPassword, email } }) {
