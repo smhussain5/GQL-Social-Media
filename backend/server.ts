@@ -11,7 +11,9 @@ const schema = makeExecutableSchema({
 
 async function startApolloServer() {
     const server = new ApolloServer({ schema });
-    const { url } = await startStandaloneServer(server);
+    const { url } = await startStandaloneServer(server, {
+        context: async ({ req, res }) => ({ req, res }),
+    });
     console.log(`
     🚀 Server is running!
     🔎 Query at ${url}`

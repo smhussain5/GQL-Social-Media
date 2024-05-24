@@ -26,6 +26,7 @@ const typeDefs = gql`
     type Mutation {
         loginUser(loginInput: LoginInput): User!
         registerUser(registrationInput: RegistrationInput): User!
+        createPost(postInput: PostInput): Post!
         deleteSinglePost(postId: ID!): String!
     }
     input RegistrationInput {
@@ -37,6 +38,9 @@ const typeDefs = gql`
     input LoginInput {
         username: String!
         password: String!
+    }
+    input PostInput {
+        body: String!
     }
 `;
 

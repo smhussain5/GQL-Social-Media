@@ -56,8 +56,17 @@ function registrationValidationChecker(username: string, password: string, confi
 };
 
 // FUNCTION 3
-function postValidationChecker() {
-    console.log("postValidationChecker");
+function postValidationChecker(body: string) {
+    const errors = {};
+    // CHECK IF BODY IS EMPTY
+    if (body.trim() === "") {
+        errors["BODY"] = "Body cannot be empty!";
+    };
+    // CHECK IF BODY IS TOO LONG
+    if (body.trim().length > 150) {
+        errors["BODY"] = "Body cannot be more than 150 character!";
+    };
+    return { errors, valid: Object.keys(errors).length === 0 };
 };
 
 export { loginValidationChecker, registrationValidationChecker, postValidationChecker };

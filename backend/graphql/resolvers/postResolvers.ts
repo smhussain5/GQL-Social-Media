@@ -1,4 +1,7 @@
+import { checkAuthentication } from '../../utils/checkAuthentication'
+import { postValidationChecker } from '../../utils/validationChecker'
 import { PrismaClient } from '@prisma/client'
+import { GraphQLError } from 'graphql'
 const prisma = new PrismaClient()
 
 const postResolvers = {
@@ -6,7 +9,12 @@ const postResolvers = {
         // GET ALL POSTS
         async getAllPosts() {
             try {
-                const postsDataBase = await prisma.post.findMany();
+                const postsDataBase = await prisma.post.findMany({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        user: true,
+                    },
+                });
                 return postsDataBase;
             } catch (err) {
                 throw new Error(String(err));
@@ -16,6 +24,10 @@ const postResolvers = {
         async getSinglePost(_, { postId }) {
             try {
                 const postDataBase = await prisma.post.findUnique({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        user: true,
+                    },
                     where: {
                         id: postId,
                     }
@@ -27,15 +39,56 @@ const postResolvers = {
         }
     },
     Mutation: {
-        // DELETE POST BY ID
-        async deleteSinglePost(_, { postId }) {
+        // CREATE POST
+        async createPost(_, { postInput: { body } }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context);
+            // VALIDATE VIA postValidationChecker() FUNCTION
+            const { errors, valid } = postValidationChecker(body);
+            if (!valid) {
+                throw new GraphQLError("Errors!", { extensions: { errors } });
+            }
+            // STORE POST
             try {
-                const postDataBase = await prisma.post.delete({
+                const postDataBase = await prisma.post.create({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        user: true,
+                    },
+                    data: {
+                        body: body,
+                        createdAt: new Date().toISOString(),
+                        user: {
+                            connect: {
+                                id: userViaAuthHeader.id
+                            }
+                        }
+                    }
+                });
+                return postDataBase;
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        },
+        // DELETE POST BY ID
+        async deleteSinglePost(_, { postId }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context)
+            // DELETE POST
+            try {
+                const postDataBase = await prisma.post.findUnique({
                     where: {
                         id: postId,
                     }
                 });
-                return postDataBase;
+                if (postDataBase && postDataBase.userId === userViaAuthHeader.userId) {
+                    const postDataBase = await prisma.post.delete({
+                        where: {
+                            id: postId,
+                        }
+                    });
+                    return `Post ${postDataBase?.id} deleted successfully!`;
+                }
             } catch (err) {
                 throw new Error(String(err));
             }

@@ -10,7 +10,12 @@ const userResolvers = {
         // GET ALL USERS
         async getAllUsers() {
             try {
-                const usersDataBase = await prisma.user.findMany();
+                const usersDataBase = await prisma.user.findMany({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        posts: true,
+                    },
+                });
                 return usersDataBase;
             } catch (err) {
                 throw new Error(String(err));
@@ -21,6 +26,10 @@ const userResolvers = {
             try {
                 const userDataBase = await prisma.user.findUnique(
                     {
+                        relationLoadStrategy: 'join',
+                        include: {
+                            posts: true,
+                        },
                         where: {
                             id: userId,
                         }
@@ -76,6 +85,7 @@ const userResolvers = {
                     },
                     data: {
                         token: jwt.sign({
+                            id: userDataBase.id,
                             username: userDataBase.username,
                             email: userDataBase.email,
                         }, process.env.SECRET_KEY, { expiresIn: '1h' })
