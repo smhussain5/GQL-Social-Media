@@ -14,6 +14,7 @@ const userResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         posts: true,
+                        likedPosts: true,
                     },
                 });
                 return usersDataBase;
@@ -29,6 +30,7 @@ const userResolvers = {
                         relationLoadStrategy: 'join',
                         include: {
                             posts: true,
+                            likedPosts: true,
                         },
                         where: {
                             id: userId,

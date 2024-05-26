@@ -1,3 +1,4 @@
+import { propagateServerField } from 'next/dist/server/lib/render-server'
 import { checkAuthentication } from '../../utils/checkAuthentication'
 import { postValidationChecker } from '../../utils/validationChecker'
 import { PrismaClient } from '@prisma/client'
@@ -13,6 +14,7 @@ const postResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         user: true,
+                        likedBy: true
                     },
                 });
                 return postsDataBase;
@@ -27,6 +29,7 @@ const postResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         user: true,
+                        likedBy: true,
                     },
                     where: {
                         id: postId,
@@ -88,6 +91,43 @@ const postResolvers = {
                         }
                     });
                     return `Post ${postDataBase?.id} deleted successfully!`;
+                }
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        },
+        async likePost(_, { postId }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context)
+            try {
+                const postDataBase = await prisma.post.findUnique({
+                    where: {
+                        id: postId,
+                    }
+                });
+                const userDataBase = await prisma.user.findUnique({
+                    where: {
+                        id: userViaAuthHeader.id,
+                    }
+                });
+                if (postDataBase && userDataBase) {
+                    const changeLike = await prisma.user.update({
+                        relationLoadStrategy: 'join',
+                        include: {
+                            likedPosts: true,
+                        },
+                        where: {
+                            id: userDataBase.id,
+                        },
+                        data: {
+                            likedPosts: {
+                                connect: {
+                                    id: postDataBase.id,
+                                }
+                            }
+                        }
+                    });
+                    return changeLike;
                 }
             } catch (err) {
                 throw new Error(String(err));
