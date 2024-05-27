@@ -15,24 +15,22 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  username      String   @unique
-  email         String   @unique
-  password      String
-  token         String   @default("")
-  createdAt     DateTime @default(now()) @db.Date
-  posts         Post[]   @relation("UserPosts")
-  biography     String?
-  likedPosts    Post[]   @relation("UserLikedPosts")
-  dislikedPosts Post[]   @relation("UserDislikedPosts")
+  id         String   @id @default(uuid())
+  username   String   @unique
+  email      String   @unique
+  password   String
+  token      String   @default("")
+  createdAt  DateTime @default(now()) @db.Date
+  posts      Post[]   @relation("UserPosts")
+  biography  String?
+  likedPosts Post[]   @relation("UserLikedPosts")
 }
 
 model Post {
-  id         String   @id @default(uuid())
-  body       String
-  createdAt  DateTime @default(now()) @db.Timestamp()
-  user       User     @relation("UserPosts", fields: [userId], references: [id])
-  userId     String
-  likedBy    User[]   @relation("UserLikedPosts")
-  dislikedBy User[]   @relation("UserDislikedPosts")
+  id        String   @id @default(uuid())
+  body      String
+  createdAt DateTime @default(now()) @db.Timestamp()
+  user      User     @relation("UserPosts", fields: [userId], references: [id])
+  userId    String
+  likedBy   User[]   @relation("UserLikedPosts")
 }
