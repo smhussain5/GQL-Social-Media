@@ -24,6 +24,8 @@ model User {
   posts      Post[]   @relation("UserPosts")
   biography  String?
   likedPosts Post[]   @relation("UserLikedPosts")
+  followers  User[]   @relation("UserFollows")
+  following  User[]   @relation("UserFollows")
 }
 
 model Post {

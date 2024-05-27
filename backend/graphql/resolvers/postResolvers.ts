@@ -1,9 +1,8 @@
-import { propagateServerField } from 'next/dist/server/lib/render-server'
-import { checkAuthentication } from '../../utils/checkAuthentication'
-import { postValidationChecker } from '../../utils/validationChecker'
-import { PrismaClient } from '@prisma/client'
-import { GraphQLError } from 'graphql'
-const prisma = new PrismaClient()
+import { checkAuthentication } from '../../utils/checkAuthentication';
+import { postValidationChecker } from '../../utils/validationChecker';
+import { PrismaClient } from '@prisma/client';
+import { GraphQLError } from 'graphql';
+const prisma = new PrismaClient();
 
 const postResolvers = {
     Query: {
@@ -90,7 +89,7 @@ const postResolvers = {
                             id: postId,
                         }
                     });
-                    return `Post ${postDataBase?.id} deleted successfully!`;
+                    return "Successful!";
                 }
             } catch (err) {
                 throw new Error(String(err));
@@ -100,34 +99,62 @@ const postResolvers = {
             // CHECK IF PROPER AUTH
             const userViaAuthHeader = checkAuthentication(context)
             try {
+                // CHECK IF POST EXISTS IN DATABASE
                 const postDataBase = await prisma.post.findUnique({
                     where: {
                         id: postId,
                     }
                 });
+                // CHECK IF USER EXISTS IN DATABASE
                 const userDataBase = await prisma.user.findUnique({
                     where: {
                         id: userViaAuthHeader.id,
                     }
                 });
+                // CHECK IF POST AND USER ARE _NOT_ NULL
                 if (postDataBase && userDataBase) {
-                    const changeLike = await prisma.user.update({
-                        relationLoadStrategy: 'join',
-                        include: {
-                            likedPosts: true,
-                        },
+                    // CHECK IF POST IS _ALREADY_ LIKED
+                    const isAlreadyLiked = await prisma.user.findFirst({
                         where: {
-                            id: userDataBase.id,
-                        },
-                        data: {
+                            id: userViaAuthHeader.id,
                             likedPosts: {
-                                connect: {
-                                    id: postDataBase.id,
+                                some: {
+                                    id: postDataBase.id
                                 }
                             }
                         }
                     });
-                    return changeLike;
+                    if (isAlreadyLiked) {
+                        // IF POST IS _ALREADY_ LIKED THEN REMOVE LIKE
+                        const changeLike = await prisma.user.update({
+                            where: {
+                                id: userDataBase.id,
+                            },
+                            data: {
+                                likedPosts: {
+                                    disconnect: {
+                                        id: postDataBase.id,
+                                    }
+                                }
+                            }
+                        });
+                        return "Successful!";
+                    } else {
+                        // IF POST IS _NOT_ LIKED THEN ADD LIKE
+                        const changeLike = await prisma.user.update({
+                            where: {
+                                id: userDataBase.id,
+                            },
+                            data: {
+                                likedPosts: {
+                                    connect: {
+                                        id: postDataBase.id,
+                                    }
+                                }
+                            }
+                        });
+                        return "Successful!";
+                    }
                 }
             } catch (err) {
                 throw new Error(String(err));

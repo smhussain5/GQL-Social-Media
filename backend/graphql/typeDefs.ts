@@ -10,6 +10,8 @@ const typeDefs = gql`
         createdAt: String!
         posts: [Post!]
         likedPosts: [Post!]
+        followers: [User!]
+        following: [User!]
     }
     type Post {
         id: ID!
@@ -30,7 +32,8 @@ const typeDefs = gql`
         registerUser(registrationInput: RegistrationInput): User!
         createPost(postInput: PostInput): Post!
         deleteSinglePost(postId: ID!): String!
-        likePost(postId: ID!): User!
+        likePost(postId: ID!): String!
+        followUser(userId: ID!): String!
     }
     input RegistrationInput {
         username: String!

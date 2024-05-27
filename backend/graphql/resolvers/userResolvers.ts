@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { loginValidationChecker, registrationValidationChecker } from '../../utils/validationChecker';
+import { checkAuthentication } from '../../utils/checkAuthentication';
 import { PrismaClient } from '@prisma/client';
 import { GraphQLError } from 'graphql'
 const prisma = new PrismaClient();
@@ -15,6 +16,8 @@ const userResolvers = {
                     include: {
                         posts: true,
                         likedPosts: true,
+                        following: true,
+                        followers: true,
                     },
                 });
                 return usersDataBase;
@@ -31,6 +34,8 @@ const userResolvers = {
                         include: {
                             posts: true,
                             likedPosts: true,
+                            following: true,
+                            followers: true,
                         },
                         where: {
                             id: userId,
@@ -158,6 +163,94 @@ const userResolvers = {
                 throw new Error(String(err));
             }
         },
+        async followUser(_, { userId }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context);
+            try {
+                // CHECK IF USER TO FOLLOW EXISTS IN DATABASE
+                const userToFollowDataBase = await prisma.user.findUnique({
+                    where: {
+                        id: userId,
+                    }
+                });
+                // CHECK IF USER EXISTS IN DATABASE
+                const userDataBase = await prisma.user.findUnique({
+                    where: {
+                        id: userViaAuthHeader.id,
+                    }
+                });
+                // CHECK IF USER TO FOLLOW AND USER ARE _NOT_ NULL
+                if (userToFollowDataBase && userDataBase && userToFollowDataBase.id !== userDataBase.id) {
+                    // CHECK IF USER TO FOLLOW IS _ALREADY_ FOLLOWED
+                    const isAlreadyFollowing = await prisma.user.findFirst({
+                        where: {
+                            id: userDataBase.id,
+                            following: {
+                                some: {
+                                    id: userId
+                                }
+                            }
+                        }
+                    });
+                    if (isAlreadyFollowing) {
+                        // IF USER TO FOLLOW IS _ALREADY_ FOLLOWED THEN UNFOLLOW
+                        const changeFollowing = await prisma.user.update({
+                            where: {
+                                id: userDataBase.id,
+                            },
+                            data: {
+                                following: {
+                                    disconnect: {
+                                        id: userId
+                                    }
+                                }
+                            }
+                        });
+                        const changeFollowers = await prisma.user.update({
+                            where: {
+                                id: userId,
+                            },
+                            data: {
+                                followers: {
+                                    disconnect: {
+                                        id: userDataBase.id,
+                                    }
+                                }
+                            }
+                        });
+                        return "Successful!";
+                    } else {
+                        const changeFollowing = await prisma.user.update({
+                            where: {
+                                id: userDataBase.id,
+                            },
+                            data: {
+                                following: {
+                                    connect: {
+                                        id: userId
+                                    }
+                                }
+                            }
+                        });
+                        const changeFollowers = await prisma.user.update({
+                            where: {
+                                id: userId,
+                            },
+                            data: {
+                                followers: {
+                                    connect: {
+                                        id: userDataBase.id,
+                                    }
+                                }
+                            }
+                        });
+                        return "Successful!";
+                    }
+                }
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        }
     }
 };
 
