@@ -12,14 +12,25 @@ const typeDefs = gql`
         likedPosts: [Post!]
         followers: [User!]
         following: [User!]
+        replies: [Reply!]
     }
     type Post {
         id: ID!
         body: String!
         createdAt: String!
-        user: User!
+        user: User
         userId: String!
         likedBy: [User!]
+        replies: [Reply!]
+    }
+    type Reply {
+        id: ID!
+        body: String!
+        createdAt: String!
+        post: Post
+        postId: String!
+        user: User
+        userId: String!
     }
     type Query {
         getAllUsers: [User!]
@@ -34,6 +45,7 @@ const typeDefs = gql`
         deleteSinglePost(postId: ID!): String!
         likePost(postId: ID!): String!
         followUser(userId: ID!): String!
+        createReply(replyInput: ReplyInput): Reply!
     }
     input RegistrationInput {
         username: String!
@@ -46,6 +58,10 @@ const typeDefs = gql`
         password: String!
     }
     input PostInput {
+        body: String!
+    }
+    input ReplyInput {
+        postId: String!
         body: String!
     }
 `;

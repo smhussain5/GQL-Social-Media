@@ -18,6 +18,7 @@ const userResolvers = {
                         likedPosts: true,
                         following: true,
                         followers: true,
+                        replies: true,
                     },
                 });
                 return usersDataBase;
@@ -36,6 +37,7 @@ const userResolvers = {
                             likedPosts: true,
                             following: true,
                             followers: true,
+                            replies: true,
                         },
                         where: {
                             id: userId,
@@ -194,7 +196,7 @@ const userResolvers = {
                     });
                     if (isAlreadyFollowing) {
                         // IF USER TO FOLLOW IS _ALREADY_ FOLLOWED THEN UNFOLLOW
-                        const changeFollowing = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userDataBase.id,
                             },
@@ -206,7 +208,7 @@ const userResolvers = {
                                 }
                             }
                         });
-                        const changeFollowers = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userId,
                             },
@@ -220,7 +222,7 @@ const userResolvers = {
                         });
                         return "Successful!";
                     } else {
-                        const changeFollowing = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userDataBase.id,
                             },
@@ -232,7 +234,7 @@ const userResolvers = {
                                 }
                             }
                         });
-                        const changeFollowers = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userId,
                             },

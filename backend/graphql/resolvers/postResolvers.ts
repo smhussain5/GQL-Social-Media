@@ -13,7 +13,8 @@ const postResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         user: true,
-                        likedBy: true
+                        replies: true,
+                        likedBy: true,
                     },
                 });
                 return postsDataBase;
@@ -28,6 +29,7 @@ const postResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         user: true,
+                        replies: true,
                         likedBy: true,
                     },
                     where: {
@@ -84,7 +86,7 @@ const postResolvers = {
                     }
                 });
                 if (postDataBase && postDataBase.userId === userViaAuthHeader.userId) {
-                    const postDataBase = await prisma.post.delete({
+                    await prisma.post.delete({
                         where: {
                             id: postId,
                         }
@@ -126,7 +128,7 @@ const postResolvers = {
                     });
                     if (isAlreadyLiked) {
                         // IF POST IS _ALREADY_ LIKED THEN REMOVE LIKE
-                        const changeLike = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userDataBase.id,
                             },
@@ -141,7 +143,7 @@ const postResolvers = {
                         return "Successful!";
                     } else {
                         // IF POST IS _NOT_ LIKED THEN ADD LIKE
-                        const changeLike = await prisma.user.update({
+                        await prisma.user.update({
                             where: {
                                 id: userDataBase.id,
                             },
