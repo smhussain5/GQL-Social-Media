@@ -1,8 +1,10 @@
-import React from 'react'
+import React from "react"
 
-function Profile() {
+export function Profile() {
     return (
-        <div>Profile</div>
+        <div>
+            <h1>PROFILE</h1>
+        </div>
     )
 }
 

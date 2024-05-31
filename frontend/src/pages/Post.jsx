@@ -1,11 +1,11 @@
 import React from "react"
 
-export function Home() {
+export function Post() {
     return (
         <div>
-            <h1>HOME</h1>
+            <h1>POST</h1>
         </div>
     )
 }
 
-export default Home
+export default Post
