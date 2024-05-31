@@ -2,7 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import { Navbar } from './components/Navbar.jsx'
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { PrimeReactProvider } from 'primereact/api';
 
 const apolloClient = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -12,7 +14,10 @@ const apolloClient = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <App />
+      <PrimeReactProvider>
+        <Navbar />
+        <App />
+      </PrimeReactProvider>
     </ApolloProvider>
   </React.StrictMode>,
 )
