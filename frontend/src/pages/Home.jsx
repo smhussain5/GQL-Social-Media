@@ -1,7 +1,7 @@
 // TODO: USE GRID TO LAYOUT HOMEPAGE
 
 // import * as React from 'react';
-import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack } from '@mui/material';
 import { gql, useQuery } from '@apollo/client';
 import PostCard, { } from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
