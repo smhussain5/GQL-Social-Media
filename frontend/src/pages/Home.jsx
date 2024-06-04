@@ -1,9 +1,10 @@
 // TODO: USE GRID TO LAYOUT HOMEPAGE
 
 // import * as React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack, Typography } from '@mui/material';
 import { gql, useQuery } from '@apollo/client';
 import PostCard, { } from '../components/PostCard'
+import PostInputCard from '../components/PostInputCard';
 
 const GET_ALL_POSTS = gql`
     query GetAllPosts {
@@ -25,45 +26,33 @@ export function Home() {
     if (loading) {
         return (
             <Box padding={4}>
-                <Stack direction={'column'}>
-                    <Typography>
-                        LOADING...
-                    </Typography>
-                </Stack>
+                <LinearProgress variant='indeterminate' />
             </Box>
         )
     } else if (error) {
         return (
             <Box padding={4}>
-                <Stack direction={'column'}>
-                    <Typography variant='h4' fontWeight={800}>
-                        ERROR
-                    </Typography>
-                    <Typography>
-                        {error.message}
-                    </Typography>
-                </Stack>
+                <Alert variant='standard' severity='error'>
+                    <AlertTitle>Error!</AlertTitle>
+                    {error.message}
+                </Alert>
             </Box>
         )
     } else {
         return (
             <Box padding={4}>
-                <Stack direction={'row'} justifyContent={'space-between'}>
-                    <Box>
-                        <Typography>
-                            Hey
-                        </Typography>
-                    </Box>
-                    <Stack direction={'column'} spacing={2}>
-                        <Box>
-                            <Stack direction={'column'} spacing={2}>
-                                {data.getAllPosts.map((post) => (
-                                    <PostCard key={post.id} data={post} />
-                                ))}
-                            </Stack>
-                        </Box>
-                    </Stack>
-                </Stack>
+                <Grid container spacing={2}>
+                    <Grid item md={4}>
+                        <PostInputCard />
+                    </Grid>
+                    <Grid item md={8}>
+                        <Stack direction={'column'} spacing={2}>
+                            {data.getAllPosts.map((post) => (
+                                <PostCard key={post.id} data={post} />
+                            ))}
+                        </Stack>
+                    </Grid>
+                </Grid>
             </Box>
         )
     }
