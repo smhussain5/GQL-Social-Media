@@ -7,7 +7,7 @@ import PostCard, { } from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
 
 const GET_ALL_POSTS = gql`
-    query GetAllPosts {
+    query {
         getAllPosts {
             id
             user {
@@ -22,6 +22,8 @@ const GET_ALL_POSTS = gql`
 export function Home() {
 
     const { loading, error, data } = useQuery(GET_ALL_POSTS);
+
+    console.log(data);
 
     if (loading) {
         return (

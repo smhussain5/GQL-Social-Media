@@ -7,7 +7,7 @@ export const PostCard = ({ data }) => {
     return (
         <Box>
             <Card variant='outlined'>
-                <CardActionArea href='/'>
+                <CardActionArea href={`/posts/${id}`}>
                     <CardContent>
                         <Stack direction={'column'} spacing={2}>
                             <Stack direction={'row'} spacing={2} alignItems='center'>

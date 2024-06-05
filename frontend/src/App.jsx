@@ -4,6 +4,7 @@ import { Profile } from './pages/Profile.jsx'
 import { Post } from './pages/Post.jsx'
 import { Login } from './pages/Login.jsx'
 import { Register } from './pages/Register.jsx'
+import { Error404 } from './pages/Error404.jsx'
 
 const reactRouter = createBrowserRouter([
   {
@@ -11,11 +12,11 @@ const reactRouter = createBrowserRouter([
     element: <Home />
   },
   {
-    path: "/profile",
+    path: "/users/:userIdParameter",
     element: <Profile />
   },
   {
-    path: "/post",
+    path: "/posts/:postIdParameter",
     element: <Post />
   },
   {
@@ -25,6 +26,10 @@ const reactRouter = createBrowserRouter([
   {
     path: "/register",
     element: <Register />
+  },
+  {
+    path: "*",
+    element: <Error404 />
   },
 ]);
 

@@ -1,19 +1,78 @@
 // import * as React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { PostDetail } from '../components/PostDetail';
+
+const GET_POST_BY_ID = gql`
+    query GetPostById($postId: ID!){
+        getSinglePost(postId: $postId) {
+            id
+            body
+            user {
+                id
+                username
+            }
+            createdAt
+            likedBy {
+                username
+            }
+            replies {
+                body
+                userId
+            }
+        }
+}
+`;
 
 export function Post() {
-    return (
-        <Box padding={4}>
-            <Stack direction={'column'}>
-                <Typography variant='h4' fontWeight={800}>
-                    POST
-                </Typography>
-                <Typography>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo officiis delectus reprehenderit nihil illo? Corrupti id cum quis laudantium dolorum debitis est cumque tempore itaque accusantium. Fugiat minus fuga atque neque impedit commodi. Accusamus unde blanditiis ipsum minus quibusdam beatae! Quae sint culpa quasi ea vitae quos consequuntur consectetur sunt.
-                </Typography>
-            </Stack>
-        </Box>
-    )
+
+    const { postIdParameter } = useParams();
+
+    const { loading, error, data } = useQuery(GET_POST_BY_ID, {
+        variables: {
+            "postId": postIdParameter
+        },
+    });
+
+    console.log(data);
+
+    if (loading) {
+        return (
+            <Box padding={4}>
+                <LinearProgress variant='indeterminate' />
+            </Box>
+        )
+    } else if (error) {
+        return (
+            <Box padding={4}>
+                <Alert variant='standard' severity='error'>
+                    <AlertTitle>Error!</AlertTitle>
+                    {error.message}
+                </Alert>
+            </Box>
+        )
+    } else {
+        return (
+            <Box padding={4}>
+                <Stack direction={'column'} spacing={2}>
+                    <Typography>
+                        {JSON.stringify(data.getSinglePost)}
+                    </Typography>
+                    <Typography>
+                        {data.getSinglePost.body}
+                    </Typography>
+                    <Typography>
+                        {data.getSinglePost.user.username}
+                    </Typography>
+                    <Typography>
+                        {data.getSinglePost.createdAt}
+                    </Typography>
+                    <PostDetail data={data} />
+                </Stack>
+            </Box>
+        )
+    }
 }
 
 export default Post

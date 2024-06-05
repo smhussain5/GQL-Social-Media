@@ -28,7 +28,7 @@ export function Header() {
                 </Typography>
                 <Stack direction="row" spacing={2}>
                     <Button href='/' variant='contained' disableElevation>Home</Button>
-                    <Button href='/profile' variant='contained' disableElevation>Profile</Button>
+                    <Button href='/users' variant='contained' disableElevation>Profile</Button>
                     <Button href='/login' variant='contained' disableElevation>Login</Button>
                     <Button href='/register' variant='contained' disableElevation>Register</Button>
                 </Stack>
