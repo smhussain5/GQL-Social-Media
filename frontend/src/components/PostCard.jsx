@@ -1,5 +1,5 @@
-import { Avatar, Box, Card, CardContent, CardActionArea, Stack, Typography } from '@mui/material'
-import { blue } from '@mui/material/colors'
+import { Avatar, Box, Card, CardContent, CardActionArea, Stack, Typography } from '@mui/material';
+import { blue } from '@mui/material/colors';
 
 export const PostCard = ({ data }) => {
     const { id, user, body, createdAt } = data

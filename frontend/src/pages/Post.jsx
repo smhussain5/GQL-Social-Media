@@ -59,15 +59,6 @@ export function Post() {
                     <Typography>
                         {JSON.stringify(data.getSinglePost)}
                     </Typography>
-                    <Typography>
-                        {data.getSinglePost.body}
-                    </Typography>
-                    <Typography>
-                        {data.getSinglePost.user.username}
-                    </Typography>
-                    <Typography>
-                        {data.getSinglePost.createdAt}
-                    </Typography>
                     <PostDetail data={data} />
                 </Stack>
             </Box>
