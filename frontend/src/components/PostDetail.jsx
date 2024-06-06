@@ -1,5 +1,6 @@
 import { Avatar, AvatarGroup, Box, Card, CardActionArea, CardContent, Stack, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { LikesCard } from './LikesCard';
+import { CommentsCard } from './CommentsCard';
 
 export const PostDetail = ({ data }) => {
 
@@ -13,7 +14,7 @@ export const PostDetail = ({ data }) => {
                 <CardContent>
                     <Stack direction={'column'} spacing={2}>
                         <CardActionArea href={`/users/${userId}`} disableRipple>
-                            <Avatar variant='rounded' sx={{ bgcolor: blue[500] }}>
+                            <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
                                 {data.getSinglePost.user.username[0]}
                             </Avatar>
                         </CardActionArea>
@@ -26,6 +27,8 @@ export const PostDetail = ({ data }) => {
                         <Typography variant='caption'>
                             TIME: {data.getSinglePost.createdAt}
                         </Typography>
+                        <LikesCard />
+                        <CommentsCard />
                         {
                             numberOfLikes ?
                                 <Box>

@@ -1,5 +1,4 @@
 import { Avatar, Box, Card, CardContent, CardActionArea, Stack, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
 
 export const PostCard = ({ data }) => {
     const { id, user, body, createdAt } = data
@@ -11,7 +10,7 @@ export const PostCard = ({ data }) => {
                     <CardContent>
                         <Stack direction={'column'} spacing={2}>
                             <Stack direction={'row'} spacing={2} alignItems='center'>
-                                <Avatar variant='rounded' sx={{ bgcolor: blue[500] }}>
+                                <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
                                     {user.username[0]}
                                 </Avatar>
                                 <Typography variant='body1'>

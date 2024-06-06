@@ -1,19 +1,71 @@
 // import * as React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { ProfileDetail } from '../components/ProfileDetail'
+
+const GET_USER_BY_ID = gql`
+    query GetUserById($userId: ID!) {
+        getSingleUser(userId: $userId) {
+            id
+            username
+            email
+            createdAt
+            posts {
+                id
+            }
+            likedPosts {
+                id
+            }
+            followers {
+                id
+                username
+            }
+            following {
+                id
+                username
+            }
+        }
+    }
+`;
 
 export function Profile() {
-    return (
-        <Box padding={4}>
-            <Stack direction={'column'}>
-                <Typography variant='h4' fontWeight={800}>
-                    PROFILE
-                </Typography>
+
+    const { userIdParameter } = useParams();
+
+    const { loading, error, data } = useQuery(GET_USER_BY_ID, {
+        variables: {
+            "userId": userIdParameter
+        },
+    });
+
+    console.log(data);
+
+    if (loading) {
+        return (
+            <Box padding={4}>
+                <LinearProgress variant='indeterminate' />
+            </Box>
+        )
+    } else if (error) {
+        return (
+            <Box padding={4}>
+                <Alert variant='standard' severity='error'>
+                    <AlertTitle>Error!</AlertTitle>
+                    {error.message}
+                </Alert>
+            </Box>
+        )
+    } else {
+        return (
+            <Box padding={4}>
+                <ProfileDetail data={data} />
                 <Typography>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo officiis delectus reprehenderit nihil illo? Corrupti id cum quis laudantium dolorum debitis est cumque tempore itaque accusantium. Fugiat minus fuga atque neque impedit commodi. Accusamus unde blanditiis ipsum minus quibusdam beatae! Quae sint culpa quasi ea vitae quos consequuntur consectetur sunt.
+                    {JSON.stringify(data.getSingleUser)}
                 </Typography>
-            </Stack>
-        </Box>
-    )
+            </Box>
+        )
+    }
 }
 
 export default Profile

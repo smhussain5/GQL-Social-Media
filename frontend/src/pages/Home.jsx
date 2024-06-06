@@ -3,7 +3,7 @@
 // import * as React from 'react';
 import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack } from '@mui/material';
 import { gql, useQuery } from '@apollo/client';
-import PostCard, { } from '../components/PostCard'
+import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
 
 const GET_ALL_POSTS = gql`
