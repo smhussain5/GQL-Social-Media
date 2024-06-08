@@ -18,7 +18,7 @@ export function Header() {
     };
 
     return (
-        <AppBar position='static'>
+        <AppBar position='static' elevation={0}>
             <Toolbar>
                 <IconButton href='/' size='large' edge='start' color='inherit'>
                     <ElectricBoltIcon />
