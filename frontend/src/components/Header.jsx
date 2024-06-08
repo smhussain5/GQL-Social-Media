@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
 
 const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
@@ -21,10 +21,10 @@ export function Header() {
         <AppBar position='static' elevation={0}>
             <Toolbar>
                 <IconButton href='/' size='large' edge='start' color='inherit'>
-                    <ElectricBoltIcon />
+                    <AdjustRoundedIcon />
                 </IconButton>
                 <Typography sx={{ flexGrow: 1 }}>
-                    GQL
+                    GraphQL
                 </Typography>
                 <Stack direction="row" spacing={2}>
                     <Button href='/' variant='contained' disableElevation>Home</Button>

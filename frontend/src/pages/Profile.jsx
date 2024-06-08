@@ -9,13 +9,14 @@ const GET_USER_BY_ID = gql`
         getSingleUser(userId: $userId) {
             id
             username
-            email
             createdAt
             posts {
                 id
+                body
             }
             likedPosts {
                 id
+                body
             }
             followers {
                 id
@@ -38,8 +39,6 @@ export function Profile() {
             "userId": userIdParameter
         },
     });
-
-    console.log(data);
 
     if (loading) {
         return (
