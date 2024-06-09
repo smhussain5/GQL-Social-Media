@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, CardActionArea, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
 
 export const PostCard = ({ data }) => {
     const { id, user, body, createdAt } = data
@@ -8,18 +8,24 @@ export const PostCard = ({ data }) => {
             <Card variant='outlined'>
                 <CardActionArea href={`/posts/${id}`}>
                     <CardContent>
-                        <Stack direction={'column'} spacing={2}>
-                            <Stack direction={'row'} spacing={2} alignItems='center'>
-                                <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
-                                    {user.username[0]}
-                                </Avatar>
-                                <Typography variant='body1'>
-                                    {body}
+                        <Grid container alignItems='center' spacing={2}>
+                            <Grid item xs={11}>
+                                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                                    <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
+                                        {user.username[0]}
+                                    </Avatar>
+                                    <Typography variant='body1'>
+                                        {body}
+                                    </Typography>
+                                </Stack>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Typography variant='caption'>
+                                    {createdAt}
                                 </Typography>
-                            </Stack>
-                            <Typography variant='caption'>
-                                {createdAt}
-                            </Typography>
+                            </Grid>
+                        </Grid>
+                        <Stack direction={'row'} alignItems='center'>
                         </Stack>
                     </CardContent>
                 </CardActionArea>

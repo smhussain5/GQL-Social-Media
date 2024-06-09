@@ -1,4 +1,5 @@
 import { Avatar, Box, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { ProfileList } from './ProfileList';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
@@ -11,13 +12,22 @@ export const ProfileDetail = ({ data }) => {
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
 
-    const [toggleOption, setToggleOption] = useState(profilePosts);
+    const [toggleOption, setToggleOption] = useState({
+        "VALUE": "POSTS",
+        "FUNCTION": profilePosts
+    });
 
     const handleToggle = (event) => {
         if (event.target.value === "POSTS") {
-            setToggleOption(profilePosts);
+            setToggleOption({
+                "VALUE": "POSTS",
+                "FUNCTION": profilePosts
+            });
         } else {
-            setToggleOption(profileLikedPosts);
+            setToggleOption({
+                "VALUE": "LIKES",
+                "FUNCTION": profileLikedPosts
+            });
         }
     };
 
@@ -36,7 +46,7 @@ export const ProfileDetail = ({ data }) => {
                                         {data.getSingleUser.username}
                                     </Typography>
                                 </Stack>
-                                <ToggleButtonGroup variant="outlined" aria-label="Profile button group" fullWidth size="small" value={toggleOption} onChange={handleToggle}>
+                                <ToggleButtonGroup aria-label="Profile button group" fullWidth value={toggleOption.VALUE} onChange={handleToggle}>
                                     <ToggleButton value="POSTS">Posts</ToggleButton>
                                     <ToggleButton value="LIKES">Likes</ToggleButton>
                                 </ToggleButtonGroup>
@@ -78,7 +88,12 @@ export const ProfileDetail = ({ data }) => {
                     <Card variant='outlined'>
                         <CardContent>
                             <Typography>
-                                {JSON.stringify(toggleOption)}
+                                {toggleOption.FUNCTION.map((toggleOptionItem) => (
+                                    <ProfileList key={toggleOptionItem.id} data={toggleOptionItem} />
+                                ))}
+                            </Typography>
+                            <Typography>
+                                {JSON.stringify(toggleOption.FUNCTION)}
                             </Typography>
                         </CardContent>
                     </Card>
