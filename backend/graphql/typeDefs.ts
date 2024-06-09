@@ -4,7 +4,6 @@ const typeDefs = gql`
     type User {
         id: ID!
         username: String!
-        email: String!
         password: Int!
         token: String!
         createdAt: String!
@@ -51,7 +50,6 @@ const typeDefs = gql`
         username: String!
         password: String!
         confirmPassword: String!
-        email: String!
     }
     input LoginInput {
         username: String!

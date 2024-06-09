@@ -17,7 +17,6 @@ datasource db {
 model User {
   id         String   @id @default(uuid())
   username   String   @unique
-  email      String   @unique
   password   String
   token      String   @default("")
   createdAt  DateTime @default(now()) @db.Date
@@ -31,7 +30,7 @@ model User {
 model Post {
   id        String   @id @default(uuid())
   body      String
-  createdAt DateTime @default(now()) @db.Timestamp()
+  createdAt DateTime @default(now()) @db.Date
   user      User     @relation("UserPosts", fields: [userId], references: [id])
   userId    String
   likedBy   User[]   @relation("UserLikedPosts")
@@ -41,7 +40,7 @@ model Post {
 model Reply {
   id        String   @id @default(uuid())
   body      String
-  createdAt DateTime @default(now()) @db.Timestamp()
+  createdAt DateTime @default(now()) @db.Date
   post      Post?    @relation(fields: [postId], references: [id])
   postId    String?
   user      User     @relation("UserReplies", fields: [userId], references: [id])

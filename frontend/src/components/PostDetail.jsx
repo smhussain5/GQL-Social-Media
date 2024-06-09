@@ -1,6 +1,7 @@
 import { Avatar, AvatarGroup, Box, Card, CardActionArea, CardContent, Stack, Typography } from '@mui/material';
 import { LikesCard } from './LikesCard';
 import { CommentsCard } from './CommentsCard';
+import moment from 'moment';
 
 export const PostDetail = ({ data }) => {
 
@@ -14,18 +15,20 @@ export const PostDetail = ({ data }) => {
                 <CardContent>
                     <Stack direction={'column'} spacing={2}>
                         <CardActionArea href={`/users/${userId}`} disableRipple>
-                            <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
-                                {data.getSinglePost.user.username[0]}
-                            </Avatar>
+                            <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                                <Avatar variant='rounded' sx={{ bgcolor: 'primary.main' }}>
+                                    {data.getSinglePost.user.username[0]}
+                                </Avatar>
+                                <Typography variant='body1' fontWeight={'bold'}>
+                                    {data.getSinglePost.user.username}
+                                </Typography>
+                            </Stack>
                         </CardActionArea>
-                        <Typography variant='body1'>
-                            POST AUTHOR: {data.getSinglePost.user.username}
-                        </Typography>
                         <Typography variant='h4'>
-                            BODY: {data.getSinglePost.body}
+                            {data.getSinglePost.body}
                         </Typography>
-                        <Typography variant='caption'>
-                            TIME: {data.getSinglePost.createdAt}
+                        <Typography variant='subtitle2'>
+                            {moment(Number(data.getSinglePost.createdAt)).calendar()}
                         </Typography>
                         <LikesCard />
                         <CommentsCard />

@@ -1,4 +1,5 @@
 import { Avatar, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
+import moment from 'moment';
 
 export const PostCard = ({ data }) => {
     const { id, user, body, createdAt } = data
@@ -19,9 +20,9 @@ export const PostCard = ({ data }) => {
                                     </Typography>
                                 </Stack>
                             </Grid>
-                            <Grid item xs={1}>
+                            <Grid item xs={1} >
                                 <Typography variant='caption'>
-                                    {createdAt}
+                                    {moment(Number(createdAt)).fromNow()}
                                 </Typography>
                             </Grid>
                         </Grid>

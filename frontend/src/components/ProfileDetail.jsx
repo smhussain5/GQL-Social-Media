@@ -5,7 +5,8 @@ import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
-import { useState } from 'react'
+import { useState } from 'react';
+import moment from 'moment';
 
 export const ProfileDetail = ({ data }) => {
 
@@ -77,7 +78,7 @@ export const ProfileDetail = ({ data }) => {
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <CakeRoundedIcon fontSize='medium' color='info' />
                                     <Typography>
-                                        Joined on {data.getSingleUser.createdAt}
+                                        Joined on {moment(Number(data.getSingleUser.createdAt)).format('MMMM Do YYYY')}
                                     </Typography>
                                 </Stack>
                             </Stack>

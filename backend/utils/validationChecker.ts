@@ -13,7 +13,7 @@ function loginValidationChecker(username: string, password: string) {
 };
 
 // VALIDATE REGISTRATION INFORMATION
-function registrationValidationChecker(username: string, password: string, confirmPassword: string, email: string) {
+function registrationValidationChecker(username: string, password: string, confirmPassword: string) {
     // COLLECT ERRORS
     const errors = {};
     // CHECK IF USERNAME IS EMPTY
@@ -35,14 +35,6 @@ function registrationValidationChecker(username: string, password: string, confi
     // CHECK IF PASSWORD IS EMPTY
     if (password.trim() === "") {
         errors["PASSWORD"] = "Password cannot be empty!";
-    };
-    // CHECK IF EMAIL IS EMPTY
-    if (email.trim() === "") {
-        errors["EMAIL"] = "Email cannot be empty!";
-    };
-    // CHECK IF EMAIL IS VALID
-    if (!email.trim().includes('@')) {
-        errors["EMAIL"] = "Enter a valid email address!";
     };
     // CHECK IF PASSWORDS DO NOT MATCH
     if (password.trim() !== confirmPassword.trim()) {

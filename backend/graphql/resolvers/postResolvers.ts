@@ -61,7 +61,7 @@ const postResolvers = {
                     },
                     data: {
                         body: body,
-                        createdAt: new Date().toISOString(),
+                        createdAt: new Date(),
                         user: {
                             connect: {
                                 id: userViaAuthHeader.id

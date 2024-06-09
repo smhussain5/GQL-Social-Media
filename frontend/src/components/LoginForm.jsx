@@ -4,18 +4,34 @@ import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 
 export const LoginForm = () => {
 
-    const [loginUsername, setLoginUsername] = useState(null);
-    const [loginPassword, setLoginPassword] = useState(null);
+    const [loginData, setLoginData] = useState({
+        username: "",
+        password: ""
+    });
+
+    const handleUsernameChange = (event) => {
+        setLoginData({
+            ...loginData,
+            username: event.target.value
+        });
+    };
+
+    const handlePasswordChange = (event) => {
+        setLoginData({
+            ...loginData,
+            password: event.target.value
+        });
+    };
 
     return (
         <Box>
             <Card variant="outlined">
                 <CardContent>
                     <Stack direction={'column'} spacing={2}>
-                        <TextField label="Username" value={loginUsername} onChange={(event) => { setLoginUsername(event.target.value) }} />
-                        <TextField label="Password" value={loginPassword} onChange={(event) => { setLoginPassword(event.target.value) }} type='password' />
+                        <TextField label="Username" value={loginData.username} onChange={handleUsernameChange} />
+                        <TextField label="Password" value={loginData.password} onChange={handlePasswordChange} type='password' />
                         <Stack direction={'column'} spacing={2} alignItems={'flex-start'}>
-                            <Button startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation onClick={() => { alert([loginUsername, loginPassword]) }}>
+                            <Button startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation onClick={() => { alert(JSON.stringify(loginData)) }}>
                                 Login
                             </Button>
                             <Link href="/register" variant="subtitle2">

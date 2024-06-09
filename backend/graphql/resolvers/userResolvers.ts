@@ -96,7 +96,6 @@ const userResolvers = {
                         token: jwt.sign({
                             id: userDataBase.id,
                             username: userDataBase.username,
-                            email: userDataBase.email,
                         }, process.env.SECRET_KEY, { expiresIn: '1h' })
                     }
                 }
@@ -104,9 +103,9 @@ const userResolvers = {
             return jwtUpdate;
         },
         // REGSITER NEW USER
-        async registerUser(_, { registrationInput: { username, password, confirmPassword, email } }) {
+        async registerUser(_, { registrationInput: { username, password, confirmPassword } }) {
             // VALIDATE VIA registrationValidationChecker() FUNCTION
-            const { errors, valid } = registrationValidationChecker(username, password, confirmPassword, email);
+            const { errors, valid } = registrationValidationChecker(username, password, confirmPassword);
             if (!valid) {
                 throw new GraphQLError("Errors!", { extensions: { errors } });
             }
@@ -127,23 +126,6 @@ const userResolvers = {
                     }
                 })
             }
-            // CHECK IF EMAIL ALREADY EXISTS
-            const emailDataBase = await prisma.user.findFirst(
-                {
-                    where: {
-                        email: email.toUpperCase(),
-                    }
-                }
-            );
-            if (emailDataBase) {
-                throw new GraphQLError("Errors!", {
-                    extensions: {
-                        errors: {
-                            "EMAIL": "This email is taken!"
-                        }
-                    }
-                })
-            }
             // HASH PASSWORD
             password = await bcrypt.hash(password, 12);
             // STORE USER
@@ -152,12 +134,7 @@ const userResolvers = {
                     data: {
                         username: username.toUpperCase(),
                         password: password,
-                        email: email.toUpperCase(),
-                        createdAt: new Date().toISOString(),
-                        token: jwt.sign({
-                            username: username,
-                            email: email,
-                        }, process.env.SECRET_KEY, { expiresIn: '1h' })
+                        createdAt: new Date()
                     }
                 })
                 return user;

@@ -37,7 +37,7 @@ const replyResolvers = {
                             replies: {
                                 create: {
                                     body: body,
-                                    createdAt: new Date().toISOString(),
+                                    createdAt: new Date(),
                                     user: {
                                         connect: {
                                             id: userDataBase.id,
