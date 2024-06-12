@@ -40,7 +40,7 @@ export const ProfileDetail = ({ data }) => {
                         <CardContent>
                             <Stack direction={'column'} spacing={2} >
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='rounded'>
+                                    <Avatar variant='square'>
                                         {data.getSingleUser.username[0]}
                                     </Avatar>
                                     <Typography fontWeight={'bold'}>
@@ -54,13 +54,13 @@ export const ProfileDetail = ({ data }) => {
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <NotesRoundedIcon fontSize='medium' color='success' />
                                     <Typography>
-                                        {data.getSingleUser.posts.length} posts
+                                        {data.getSingleUser.posts.length} post(s)
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <StarRateRoundedIcon fontSize='medium' color='warning' />
                                     <Typography>
-                                        {data.getSingleUser.likedPosts.length} likes
+                                        {data.getSingleUser.likedPosts.length} like(s)
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
@@ -93,11 +93,11 @@ export const ProfileDetail = ({ data }) => {
                                     <ProfileList key={toggleOptionItem.id} data={toggleOptionItem} />
                                 ))}
                             </Typography>
-                            <Typography>
-                                {JSON.stringify(toggleOption.FUNCTION)}
-                            </Typography>
                         </CardContent>
                     </Card>
+                    <Typography>
+                        {JSON.stringify(toggleOption.FUNCTION)}
+                    </Typography>
                 </Grid>
             </Grid>
         </Box>

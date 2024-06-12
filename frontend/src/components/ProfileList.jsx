@@ -7,7 +7,7 @@ export const ProfileList = ({ data }) => {
             <List>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar variant='rounded'>
+                        <Avatar variant='square'>
                             {data.body[0]}
                         </Avatar>
                     </ListItemAvatar>

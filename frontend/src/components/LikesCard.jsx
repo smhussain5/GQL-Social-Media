@@ -1,8 +1,27 @@
-import React from 'react'
+import React from 'react';
+import { Avatar, AvatarGroup, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
 
-export const LikesCard = () => {
+export const LikesCard = ({ data }) => {
+
+    const numberOfLikes = data.getSinglePost.likedBy.length;
+
     return (
-        <div>LikesCard</div>
+        numberOfLikes ?
+            <Box>
+                <Stack direction={'row'}>
+                    <AvatarGroup total={numberOfLikes}>
+                        <Avatar variant='circular'>
+                            {data.getSinglePost.likedBy[0].username[0]}
+                        </Avatar>
+                    </AvatarGroup>
+                </Stack>
+            </Box>
+            :
+            <Box>
+                <Typography>
+                    No likes yet!
+                </Typography>
+            </Box>
     )
 }
 

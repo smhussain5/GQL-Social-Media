@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Card, CardContent, Link, Stack, TextField } from "@mui/material";
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 
 export const LoginForm = () => {
+
+    const navigateTo = useNavigate();
 
     const [loginData, setLoginData] = useState({
         username: "",
@@ -23,6 +26,10 @@ export const LoginForm = () => {
         });
     };
 
+    const handleLogin = () => {
+        navigateTo('/');
+    }
+
     return (
         <Box>
             <Card variant="outlined">
@@ -31,10 +38,10 @@ export const LoginForm = () => {
                         <TextField label="Username" value={loginData.username} onChange={handleUsernameChange} />
                         <TextField label="Password" value={loginData.password} onChange={handlePasswordChange} type='password' />
                         <Stack direction={'column'} spacing={2} alignItems={'flex-start'}>
-                            <Button startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation onClick={() => { alert(JSON.stringify(loginData)) }}>
+                            <Button startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation onClick={handleLogin}>
                                 Login
                             </Button>
-                            <Link href="/register" variant="subtitle2">
+                            <Link component={RouterLink} to='/register' variant="subtitle2">
                                 Actually, I need to register!
                             </Link>
                         </Stack>

@@ -14,27 +14,67 @@ const apolloClient = new ApolloClient({
 const customThemeBase = createTheme({
   palette: {
     primary: {
-      main: '#212121'
+      main: '#64748B'
     },
     secondary: {
-      main: '#F48FB1'
+      main: '#D946EF'
     },
     error: {
-      main: '#EF9A9A'
+      main: '#F43F5E'
     },
     warning: {
-      main: '#FFAB91'
+      main: '#F59E0B'
     },
     info: {
-      main: '#81D4FA'
+      main: '#06B6D4'
     },
     success: {
-      main: '#80CBC4'
+      main: '#22C55E'
     },
   },
   typography: {
-    fontFamily: 'Inter'
+    fontFamily: 'Roboto'
   },
+  components: {
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: 16,
+          '&:last-child': {
+            paddingBottom: 16,
+          },
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        }
+      }
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        }
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        }
+      }
+    },
+  }
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(

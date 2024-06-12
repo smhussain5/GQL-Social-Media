@@ -1,12 +1,14 @@
 // TODO: Make Header component responsive, with menu open/close
 
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom'
 import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
 
 const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
 export function Header() {
+
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     const handleOpenNavMenu = (event) => {

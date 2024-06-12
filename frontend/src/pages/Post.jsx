@@ -56,10 +56,10 @@ export function Post() {
         return (
             <Box padding={4}>
                 <Stack direction={'column'} spacing={2}>
+                    <PostDetail data={data} />
                     <Typography>
                         {JSON.stringify(data.getSinglePost)}
                     </Typography>
-                    <PostDetail data={data} />
                 </Stack>
             </Box>
         )

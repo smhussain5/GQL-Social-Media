@@ -16,6 +16,9 @@ const postResolvers = {
                         replies: true,
                         likedBy: true,
                     },
+                    orderBy: [{
+                        createdAt: 'desc'
+                    }]
                 });
                 return postsDataBase;
             } catch (err) {
