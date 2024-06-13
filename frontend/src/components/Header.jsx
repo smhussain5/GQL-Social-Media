@@ -7,7 +7,7 @@ import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
 
 const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
-export function Header() {
+export const Header = () => {
 
     const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -22,17 +22,17 @@ export function Header() {
     return (
         <AppBar position='static' elevation={0}>
             <Toolbar>
-                <IconButton href='/' size='large' edge='start' color='inherit'>
+                <IconButton component={NavLink} to="/" size='large' edge='start' color='inherit'>
                     <AdjustRoundedIcon />
                 </IconButton>
                 <Typography sx={{ flexGrow: 1 }}>
                     GraphQL
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    <Button href='/' variant='contained' disableElevation>Home</Button>
-                    <Button href='/users' variant='contained' disableElevation>Profile</Button>
-                    <Button href='/login' variant='contained' disableElevation>Login</Button>
-                    <Button href='/register' variant='contained' disableElevation>Register</Button>
+                    <Button component={NavLink} to="/" variant='contained' disableElevation>Home</Button>
+                    <Button component={NavLink} to="/profile" variant='contained' disableElevation>Profile</Button>
+                    <Button component={NavLink} to="/login" variant='contained' disableElevation>Login</Button>
+                    <Button component={NavLink} to="/register" variant='contained' disableElevation>Register</Button>
                 </Stack>
             </Toolbar>
         </AppBar >

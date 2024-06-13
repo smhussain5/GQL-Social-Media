@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AvatarGroup, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Stack, Typography } from '@mui/material';
 
 export const LikesCard = ({ data }) => {
 

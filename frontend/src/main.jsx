@@ -1,10 +1,10 @@
 // import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { Header } from './components/Header.jsx'
 import { createTheme, ThemeProvider } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
 
 const apolloClient = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -14,7 +14,7 @@ const apolloClient = new ApolloClient({
 const customThemeBase = createTheme({
   palette: {
     primary: {
-      main: '#64748B'
+      main: '#000'
     },
     secondary: {
       main: '#D946EF'
@@ -26,7 +26,7 @@ const customThemeBase = createTheme({
       main: '#F59E0B'
     },
     info: {
-      main: '#06B6D4'
+      main: '#3B82F6'
     },
     success: {
       main: '#22C55E'
@@ -80,8 +80,9 @@ const customThemeBase = createTheme({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={customThemeBase}>
-      <Header />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeProvider>
   </ApolloProvider>
 )
