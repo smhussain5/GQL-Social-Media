@@ -48,14 +48,14 @@ export const RegisterForm = () => {
                         <TextField label="Username" value={registrationData.username} onChange={handleUsernameChange} />
                         <TextField label="Password" value={registrationData.password} onChange={handlePasswordChange} type="password" />
                         <TextField label="Confirm password" value={registrationData.confirmPassword} onChange={handleConfirmPasswordChange} type="password" />
-                        <Stack direction={'column'} spacing={2} alignItems={'flex-start'}>
+                        <Box>
                             <Button startIcon={<PersonAddRoundedIcon />} variant="contained" disableElevation onClick={handleRegistration}>
                                 Register
                             </Button>
-                            <Link component={RouterLink} to='/login' variant="subtitle2">
-                                Wait, I already have an account!
-                            </Link>
-                        </Stack>
+                        </Box>
+                        <Link component={RouterLink} to='/login' variant="subtitle2">
+                            Wait, I already have an account!
+                        </Link>
                     </Stack>
                 </CardContent>
             </Card>

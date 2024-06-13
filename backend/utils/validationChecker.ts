@@ -2,6 +2,9 @@
 function loginValidationChecker(username: string, password: string) {
     const errors = {};
     // CHECK IF USERNAME IS EMPTY
+    if (username.trim() === "" && password.trim() === "") {
+        return;
+    };
     if (username.trim() === "") {
         errors["USERNAME"] = "Username cannot be empty!";
     };

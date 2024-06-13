@@ -5,7 +5,7 @@ import { gql, useQuery } from '@apollo/client';
 import { PostDetail } from '../components/PostDetail';
 
 const GET_POST_BY_ID = gql`
-    query GetPostById($postId: ID!){
+    query GetPostById($postId: ID!) {
         getSinglePost(postId: $postId) {
             id
             body
@@ -22,7 +22,7 @@ const GET_POST_BY_ID = gql`
                 userId
             }
         }
-}
+    }
 `;
 
 export function Post() {
