@@ -1,10 +1,10 @@
-// import React from 'react'
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthContextProvider } from './context/AuthContextProvider.jsx'
 
 const apolloClient = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -80,9 +80,11 @@ const customThemeBase = createTheme({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={customThemeBase}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthContextProvider>
     </ThemeProvider>
   </ApolloProvider>
 )

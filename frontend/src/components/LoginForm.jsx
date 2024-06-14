@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthContext'
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField } from "@mui/material";
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
@@ -17,6 +18,8 @@ const LOGIN_USER = gql`
 export const LoginForm = () => {
 
     const navigateTo = useNavigate();
+
+    const { setUser } = useContext(AuthContext);
 
     const [loginData, setLoginData] = useState({
         username: "",
@@ -55,6 +58,12 @@ export const LoginForm = () => {
         });
         if (data) {
             setErrorMessages(null);
+            setUser({
+                id: data.loginUser.id,
+                username: data.loginUser.username,
+                jwtToken: data.loginUser.token,
+            });
+            console.log(JSON.stringify(data, null, 2));
             navigateTo('/');
         } else if (error) {
             const errorData = error.graphQLErrors[0].extensions.errors;

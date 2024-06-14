@@ -1,7 +1,8 @@
 // TODO: USE GRID TO LAYOUT HOMEPAGE
 
-// import * as React from 'react';
-import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack } from '@mui/material';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
+import { Alert, AlertTitle, Box, Grid, LinearProgress, Stack, Typography } from '@mui/material';
 import { gql, useQuery } from '@apollo/client';
 import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
@@ -23,7 +24,7 @@ export function Home() {
 
     const { loading, error, data } = useQuery(GET_ALL_POSTS);
 
-    console.log(data);
+    const { user } = useContext(AuthContext);
 
     if (loading) {
         return (
@@ -46,6 +47,9 @@ export function Home() {
                 <Grid container spacing={2}>
                     <Grid item md={4}>
                         <PostInputCard />
+                        <Typography>
+                            {JSON.stringify(user, null, 2)}
+                        </Typography>
                     </Grid>
                     <Grid item md={8}>
                         <Stack direction={'column'} spacing={2}>
@@ -58,7 +62,6 @@ export function Home() {
             </Box>
         )
     }
-
 }
 
 export default Home
