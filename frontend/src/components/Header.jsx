@@ -11,8 +11,6 @@ export const Header = () => {
 
     const { user, setUser } = useContext(AuthContext);
 
-    console.log(JSON.stringify(user, null, 2));
-
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     const handleOpenNavMenu = (event) => {
@@ -31,6 +29,7 @@ export const Header = () => {
             username: String(Date.now())
         });
         alert("LOGOUT CLICKED");
+        localStorage.removeItem("jwtToken");
         navigateTo("/login");
     }
 

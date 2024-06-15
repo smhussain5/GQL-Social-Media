@@ -19,7 +19,7 @@ export const LoginForm = () => {
 
     const navigateTo = useNavigate();
 
-    const { setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     const [loginData, setLoginData] = useState({
         username: "",
@@ -63,7 +63,7 @@ export const LoginForm = () => {
                 username: data.loginUser.username,
                 jwtToken: data.loginUser.token,
             });
-            console.log(JSON.stringify(data, null, 2));
+            localStorage.setItem("jwtToken", data.loginUser.token);
             navigateTo('/');
         } else if (error) {
             const errorData = error.graphQLErrors[0].extensions.errors;
