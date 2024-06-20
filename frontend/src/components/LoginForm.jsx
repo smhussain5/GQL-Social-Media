@@ -1,7 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
+import { useForm } from "react-hook-form"
 import AuthContext from '../context/AuthContext'
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 import { gql, useMutation } from '@apollo/client';
 
@@ -21,43 +22,24 @@ export const LoginForm = () => {
 
     const { user, setUser } = useContext(AuthContext);
 
-    const [loginData, setLoginData] = useState({
-        username: "",
-        password: ""
-    });
-
-    const [errorMessages, setErrorMessages] = useState(null);
-
-    useEffect(() => {
-    }, [errorMessages]);
-
-    const handleUsernameChange = (event) => {
-        setLoginData({
-            ...loginData,
-            username: event.target.value
-        });
-    };
-
-    const handlePasswordChange = (event) => {
-        setLoginData({
-            ...loginData,
-            password: event.target.value
-        });
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const [loginUserMutation, { data, error }] = useMutation(LOGIN_USER);
 
-    const handleLogin = () => {
-        loginUserMutation({
-            variables: {
-                "loginInput": {
-                    "username": loginData.username,
-                    "password": loginData.password
-                }
-            },
-        });
-        if (data) {
-            setErrorMessages(null);
+    const onSubmit = async (formData) => {
+        try {
+            const { data } = await loginUserMutation({
+                variables: {
+                    "loginInput": {
+                        "username": formData.username,
+                        "password": formData.password
+                    }
+                },
+            });
             setUser({
                 id: data.loginUser.id,
                 username: data.loginUser.username,
@@ -65,30 +47,32 @@ export const LoginForm = () => {
             });
             localStorage.setItem("jwtToken", data.loginUser.token);
             navigateTo('/');
-        } else if (error) {
-            const errorData = error.graphQLErrors[0].extensions.errors;
-            if (errorData.USERNAME) {
-                setErrorMessages(errorData.USERNAME);
-            } else if (errorData.PASSWORD) {
-                setErrorMessages(errorData.PASSWORD);
-            } else {
-                setErrorMessages(errorData);
-            }
+        } catch (error) {
+            alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
         }
     };
 
     return (
-        <Box>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
             <Card variant="outlined">
                 <CardContent>
                     <Stack direction={'column'} spacing={2}>
-                        <Alert severity='error' sx={errorMessages ? { display: 'inline-flex' } : { display: 'none' }}>
-                            {errorMessages}
-                        </Alert>
-                        <TextField label="Username" value={loginData.username} onChange={handleUsernameChange} />
-                        <TextField label="Password" value={loginData.password} onChange={handlePasswordChange} type='password' />
+                        <TextField
+                            label="Username"
+                            {...register("username", {
+                                required: "Enter username!"
+                            })}
+                            helperText={errors.username?.message}
+                        />
+                        <TextField
+                            label="Password"
+                            {...register("password", {
+                                required: "Enter password!"
+                            })}
+                            helperText={errors.password?.message}
+                            type='password' />
                         <Box>
-                            <Button startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation onClick={handleLogin}>
+                            <Button type="submit" startIcon={<FingerprintRoundedIcon />} variant="contained" disableElevation>
                                 Login
                             </Button>
                         </Box>

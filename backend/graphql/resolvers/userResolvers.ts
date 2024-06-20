@@ -78,9 +78,7 @@ const userResolvers = {
             if (!passwordMatch) {
                 throw new GraphQLError("Errors!", {
                     extensions: {
-                        errors: {
-                            "USERNAME/PASSWORD": "Wrong username/password!"
-                        }
+                        errors: "Wrong username/password!"
                     }
                 })
             }
