@@ -116,9 +116,7 @@ const userResolvers = {
             if (userDataBase) {
                 throw new GraphQLError("Errors!", {
                     extensions: {
-                        errors: {
-                            "USERNAME": "This username is taken!"
-                        }
+                        errors: "This username is taken!"
                     }
                 })
             }

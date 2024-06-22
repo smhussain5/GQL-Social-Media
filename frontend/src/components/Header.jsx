@@ -1,5 +1,5 @@
 // TODO: Make Header component responsive, with menu open/close
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
@@ -11,24 +11,24 @@ export const Header = () => {
 
     const { user, setUser } = useContext(AuthContext);
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
+    // const [anchorElNav, setAnchorElNav] = useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    // const handleOpenNavMenu = (event) => {
+    //     setAnchorElNav(event.currentTarget);
+    // };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+    // const handleCloseNavMenu = () => {
+    //     setAnchorElNav(null);
+    // };
 
     const navigateTo = useNavigate();
 
     const handleLogout = () => {
         setUser({
-            ...user,
-            username: String(Date.now())
+            id: "",
+            username: "",
+            jwtToken: ""
         });
-        alert("LOGOUT CLICKED");
         localStorage.removeItem("jwtToken");
         navigateTo("/login");
     }

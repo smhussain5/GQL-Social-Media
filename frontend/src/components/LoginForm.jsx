@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
-import { useForm } from "react-hook-form"
-import AuthContext from '../context/AuthContext'
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useState, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import AuthContext from "../context/AuthContext";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 import { gql, useMutation } from '@apollo/client';
@@ -20,7 +20,7 @@ export const LoginForm = () => {
 
     const navigateTo = useNavigate();
 
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
 
     const {
         register,
@@ -38,7 +38,7 @@ export const LoginForm = () => {
                         "username": formData.username,
                         "password": formData.password
                     }
-                },
+                }
             });
             setUser({
                 id: data.loginUser.id,
@@ -46,7 +46,7 @@ export const LoginForm = () => {
                 jwtToken: data.loginUser.token,
             });
             localStorage.setItem("jwtToken", data.loginUser.token);
-            navigateTo('/');
+            navigateTo("/");
         } catch (error) {
             alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
         }
@@ -60,14 +60,14 @@ export const LoginForm = () => {
                         <TextField
                             label="Username"
                             {...register("username", {
-                                required: "Enter username!"
+                                required: "Enter username"
                             })}
                             helperText={errors.username?.message}
                         />
                         <TextField
                             label="Password"
                             {...register("password", {
-                                required: "Enter password!"
+                                required: "Enter password"
                             })}
                             helperText={errors.password?.message}
                             type='password' />

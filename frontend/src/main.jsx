@@ -74,6 +74,13 @@ const customThemeBase = createTheme({
         }
       }
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: '#F43F5E'
+        }
+      }
+    },
   }
 })
 
