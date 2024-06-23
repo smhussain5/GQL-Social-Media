@@ -17,7 +17,6 @@ export const RegisterForm = () => {
 
     const navigateTo = useNavigate();
 
-
     const {
         register,
         handleSubmit,

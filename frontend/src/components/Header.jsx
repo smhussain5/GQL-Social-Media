@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
 
-const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
+// const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
 export const Header = () => {
 
@@ -43,11 +43,18 @@ export const Header = () => {
                     GraphQL ({user.username})
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    <Button component={NavLink} to="/" variant='contained' disableElevation>Home</Button>
-                    <Button component={NavLink} to={`/users/${user.id}`} variant='contained' disableElevation>Profile</Button>
-                    <Button component={NavLink} to="/login" variant='contained' disableElevation>Login</Button>
-                    <Button onClick={handleLogout} variant='contained' disableElevation>Logout</Button>
-                    <Button component={NavLink} to="/register" variant='contained' disableElevation>Register</Button>
+                    {user.jwtToken ?
+                        <>
+                            <Button component={NavLink} to="/" variant='contained' disableElevation>Home</Button>
+                            <Button component={NavLink} to={`/users/${user.id}`} variant='contained' disableElevation>Profile</Button>
+                            <Button onClick={handleLogout} variant='contained' disableElevation>Logout</Button>
+                        </>
+                        :
+                        <>
+                            <Button component={NavLink} to="/login" variant='contained' disableElevation>Login</Button>
+                            <Button component={NavLink} to="/register" variant='contained' disableElevation>Register</Button>
+                        </>
+                    }
                 </Stack>
             </Toolbar>
         </AppBar >

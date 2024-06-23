@@ -20,7 +20,7 @@ export const LoginForm = () => {
 
     const navigateTo = useNavigate();
 
-    const { setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     const {
         register,
