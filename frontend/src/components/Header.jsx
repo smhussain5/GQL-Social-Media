@@ -40,7 +40,7 @@ export const Header = () => {
                     <AdjustRoundedIcon />
                 </IconButton>
                 <Typography sx={{ flexGrow: 1 }}>
-                    GraphQL ({user.username})
+                    {user.username}
                 </Typography>
                 <Stack direction="row" spacing={2}>
                     {user.jwtToken ?

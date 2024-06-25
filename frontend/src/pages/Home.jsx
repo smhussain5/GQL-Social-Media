@@ -44,21 +44,14 @@ export function Home() {
     } else {
         return (
             <Box padding={4}>
-                <Grid container spacing={2}>
-                    <Grid item md={4}>
-                        <PostInputCard />
-                        <Typography>
-                            {JSON.stringify(user, null, 2)}
-                        </Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <Stack direction={'column'} spacing={2}>
-                            {data.getAllPosts.map((post) => (
-                                <PostCard key={post.id} data={post} />
-                            ))}
-                        </Stack>
-                    </Grid>
-                </Grid>
+                <Stack spacing={2}>
+                    <PostInputCard />
+                    <Stack direction={'column'} spacing={2}>
+                        {data.getAllPosts.map((post) => (
+                            <PostCard key={post.id} data={post} />
+                        ))}
+                    </Stack>
+                </Stack>
             </Box>
         )
     }

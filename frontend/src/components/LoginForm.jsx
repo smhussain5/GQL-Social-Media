@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import AuthContext from "../context/AuthContext";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -20,7 +20,7 @@ export const LoginForm = () => {
 
     const navigateTo = useNavigate();
 
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
 
     const {
         register,

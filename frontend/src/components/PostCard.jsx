@@ -6,7 +6,7 @@ export const PostCard = ({ data }) => {
 
     const navigateTo = useNavigate();
 
-    const { id, user, body, createdAt } = data
+    const { id, user, body, createdAt } = data;
 
     return (
         <Box>
