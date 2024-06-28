@@ -9,7 +9,7 @@ import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
 
 export const Header = () => {
 
-    const { user, setUser } = useContext(AuthContext);
+    const { userContext, setUserContext } = useContext(AuthContext);
 
     // const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -24,7 +24,7 @@ export const Header = () => {
     const navigateTo = useNavigate();
 
     const handleLogout = () => {
-        setUser({
+        setUserContext({
             id: "",
             username: "",
             jwtToken: ""
@@ -40,13 +40,13 @@ export const Header = () => {
                     <AdjustRoundedIcon />
                 </IconButton>
                 <Typography sx={{ flexGrow: 1 }}>
-                    {user.username}
+                    {userContext.username}
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    {user.jwtToken ?
+                    {userContext.jwtToken ?
                         <>
                             <Button component={NavLink} to="/" variant='contained' disableElevation>Home</Button>
-                            <Button component={NavLink} to={`/users/${user.id}`} variant='contained' disableElevation>Profile</Button>
+                            <Button component={NavLink} to={`/users/${userContext.id}`} variant='contained' disableElevation>Profile</Button>
                             <Button onClick={handleLogout} variant='contained' disableElevation>Logout</Button>
                         </>
                         :

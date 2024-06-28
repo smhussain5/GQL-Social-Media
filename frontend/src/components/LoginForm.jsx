@@ -20,7 +20,7 @@ export const LoginForm = () => {
 
     const navigateTo = useNavigate();
 
-    const { setUser } = useContext(AuthContext);
+    const { setUserContext } = useContext(AuthContext);
 
     const {
         register,
@@ -40,7 +40,7 @@ export const LoginForm = () => {
                     }
                 }
             });
-            setUser({
+            setUserContext({
                 id: data.loginUser.id,
                 username: data.loginUser.username,
                 jwtToken: data.loginUser.token,

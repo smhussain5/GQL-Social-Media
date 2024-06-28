@@ -17,16 +17,15 @@ if (localStorage.getItem("jwtToken")) {
         initialAuthState.id = decodedToken.id;
         initialAuthState.username = decodedToken.username;
         initialAuthState.jwtToken = localStorage.getItem("jwtToken");
-        console.log(initialAuthState);
     }
 }
 
 export const AuthContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState(initialAuthState);
+    const [userContext, setUserContext] = useState(initialAuthState);
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ userContext, setUserContext }}>
             {children}
         </AuthContext.Provider>
     )

@@ -11,18 +11,18 @@ import { Header } from './components/Header.jsx'
 
 function App() {
 
-  const { user } = useContext(AuthContext);
+  const { userContext } = useContext(AuthContext);
 
   return (
     <div>
       <Header />
       <Routes>
-        <Route path='/' element={user.jwtToken ? <Home /> : <Navigate to="/login" replace={true} />} />
-        <Route path='/users/:userIdParameter' element={user.jwtToken ? <Profile /> : <Navigate to="/login" replace={true} />} />
-        <Route path='/posts/:postIdParameter' element={user.jwtToken ? <Post /> : <Navigate to="/login" replace={true} />} />
-        <Route path='/login' element={user.jwtToken ? <Navigate to="/" replace={true} /> : <Login />} />
-        <Route path='/register' element={user.jwtToken ? <Navigate to="/" replace={true} /> : <Register />} />
-        <Route path='*' element={user.jwtToken ? <Error404 /> : <Navigate to="/login" replace={true} />} />
+        <Route path='/' element={userContext.jwtToken ? <Home /> : <Navigate to="/login" replace={true} />} />
+        <Route path='/users/:userIdParameter' element={userContext.jwtToken ? <Profile /> : <Navigate to="/login" replace={true} />} />
+        <Route path='/posts/:postIdParameter' element={userContext.jwtToken ? <Post /> : <Navigate to="/login" replace={true} />} />
+        <Route path='/login' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Login />} />
+        <Route path='/register' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Register />} />
+        <Route path='*' element={userContext.jwtToken ? <Error404 /> : <Navigate to="/login" replace={true} />} />
       </Routes>
     </div>
   )

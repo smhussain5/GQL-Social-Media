@@ -19,7 +19,7 @@ export const PostDetail = ({ data }) => {
                         <Stack direction={'column'} spacing={2}>
                             <CardActionArea onClick={() => { navigateTo(`/users/${userId}`) }}>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='square' sx={{ bgcolor: 'primary.main' }}>
+                                    <Avatar variant='circular' sx={{ bgcolor: 'primary.main' }}>
                                         {data.getSinglePost.user.username[0]}
                                     </Avatar>
                                     <Typography variant='body1' fontWeight={'bold'}>

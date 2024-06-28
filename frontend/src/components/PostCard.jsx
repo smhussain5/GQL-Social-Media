@@ -1,10 +1,14 @@
+import { useContext } from "react";
 import { Avatar, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
+import AuthContext from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 export const PostCard = ({ data }) => {
 
     const navigateTo = useNavigate();
+
+    const { userContext } = useContext(AuthContext);
 
     const { id, user, body, createdAt } = data;
 
@@ -16,16 +20,16 @@ export const PostCard = ({ data }) => {
                         <Grid container alignItems='center' spacing={2}>
                             <Grid item xs={11}>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='square' sx={{ bgcolor: 'primary.main' }}>
+                                    <Avatar variant='circular' sx={{ bgcolor: user.username === userContext.username ? 'info.light' : 'primary.main' }}>
                                         {user.username[0]}
                                     </Avatar>
-                                    <Typography variant='body1'>
+                                    <Typography variant='body1' color={user.username === userContext.username ? 'info.dark' : ''}>
                                         {body}
                                     </Typography>
                                 </Stack>
                             </Grid>
                             <Grid item xs={1} >
-                                <Typography variant='caption'>
+                                <Typography variant='caption' color={user.username === userContext.username ? 'info.dark' : ''}>
                                     {moment(Number(createdAt)).fromNow()}
                                 </Typography>
                             </Grid>

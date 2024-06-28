@@ -1,9 +1,21 @@
 // import React from 'react'
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from '@mui/material';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import { gql, useMutation } from '@apollo/client';
+
+const CREATE_POST = gql`
+    mutation AddPost($postInput: PostInput) {
+        createPost(postInput: $postInput) {
+            __typename
+        }
+    }
+`;
 
 const PostInputCard = () => {
+
+    const navigateTo = useNavigate();
 
     const {
         register,
@@ -12,8 +24,21 @@ const PostInputCard = () => {
         watch
     } = useForm();
 
-    const onSubmit = (formData) => {
-        alert(formData.post);
+    const [createPostMutation, { data, error }] = useMutation(CREATE_POST);
+
+    const onSubmit = async (formData) => {
+        try {
+            const { data } = await createPostMutation({
+                variables: {
+                    "postInput": {
+                        "body": formData.post
+                    }
+                }
+            });
+            navigateTo("/");
+        } catch (error) {
+            alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
+        }
     }
 
     return (
