@@ -19,7 +19,7 @@ const GET_ALL_POSTS = gql`
 
 export function Home() {
 
-    const { loading, error, data } = useQuery(GET_ALL_POSTS);
+    const { loading, error, refetch, data } = useQuery(GET_ALL_POSTS);
 
     if (loading) {
         return (
@@ -40,7 +40,7 @@ export function Home() {
         return (
             <Box padding={4}>
                 <Stack spacing={2}>
-                    <PostInputCard />
+                    <PostInputCard refetch={refetch} />
                     <Stack direction={'column'} spacing={2}>
                         {data.getAllPosts.map((post) => (
                             <PostCard key={post.id} data={post} />
