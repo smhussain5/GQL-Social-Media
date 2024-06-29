@@ -1,14 +1,19 @@
-import { Avatar, Box, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import { Avatar, Box, Button, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { ProfileList } from './ProfileList';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { useState } from 'react';
 import moment from 'moment';
 
 export const ProfileDetail = ({ data }) => {
+
+    const { userContext } = useContext(AuthContext);
 
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
@@ -40,7 +45,7 @@ export const ProfileDetail = ({ data }) => {
                         <CardContent>
                             <Stack direction={'column'} spacing={2} >
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='square'>
+                                    <Avatar variant='circular'>
                                         {data.getSingleUser.username[0]}
                                     </Avatar>
                                     <Typography fontWeight={'bold'}>
@@ -81,6 +86,12 @@ export const ProfileDetail = ({ data }) => {
                                         Joined on {moment(Number(data.getSingleUser.createdAt)).format('MMMM Do YYYY')}
                                     </Typography>
                                 </Stack>
+                                {
+                                    data.getSingleUser.username !== userContext.username &&
+                                    <Button startIcon={<AddCircleOutlineRoundedIcon />} variant='contained' disableElevation onClick={() => alert("FOLLOWED!")}>
+                                        Follow
+                                    </Button>
+                                }
                             </Stack>
                         </CardContent>
                     </Card>
@@ -100,7 +111,7 @@ export const ProfileDetail = ({ data }) => {
                     </Typography>
                 </Grid>
             </Grid>
-        </Box>
+        </Box >
     )
 }
 
