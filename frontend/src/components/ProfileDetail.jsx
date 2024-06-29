@@ -3,7 +3,7 @@ import AuthContext from "../context/AuthContext";
 import { Avatar, Box, Button, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { ProfileList } from './ProfileList';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
-import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
@@ -63,7 +63,7 @@ export const ProfileDetail = ({ data }) => {
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
-                                    <StarRateRoundedIcon fontSize='medium' color='warning' />
+                                    <StarRoundedIcon fontSize='medium' color='warning' />
                                     <Typography>
                                         {data.getSingleUser.likedPosts.length} like(s)
                                     </Typography>

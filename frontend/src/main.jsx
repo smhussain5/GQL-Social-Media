@@ -35,16 +35,16 @@ const customThemeBase = createTheme({
       main: '#D946EF'
     },
     error: {
-      main: '#F43F5E'
+      main: '#F87171'
     },
     warning: {
-      main: '#F59E0B'
+      main: '#FACC15'
     },
     info: {
-      main: '#3B82F6'
+      main: '#38BDF8'
     },
     success: {
-      main: '#22C55E'
+      main: '#4ADE80'
     },
   },
   typography: {

@@ -1,15 +1,43 @@
-import { Avatar, Box, Card, CardActionArea, CardContent, Stack, Typography } from '@mui/material';
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, Stack, Typography } from '@mui/material';
 import TimelapseRoundedIcon from '@mui/icons-material/TimelapseRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { useNavigate } from 'react-router-dom';
 import { LikesCard } from './LikesCard';
 import { CommentsCard } from './CommentsCard';
 import moment from 'moment';
+import { gql, useMutation } from '@apollo/client';
 
-export const PostDetail = ({ data }) => {
+const LIKE_POST = gql`
+    mutation LikePost($postId: ID!) {
+        likePost(postId: $postId)
+    }
+`;
+
+export const PostDetail = ({ data, refetch }) => {
+
+    const [likePostMutation, { error }] = useMutation(LIKE_POST);
 
     const navigateTo = useNavigate();
 
+    const { userContext } = useContext(AuthContext);
+
     const userId = data.getSinglePost.user.id;
+
+    const handleLike = async () => {
+        try {
+            await likePostMutation({
+                variables: {
+                    "postId": data.getSinglePost.id
+                }
+            });
+            refetch();
+        } catch (error) {
+            alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
+        }
+    };
 
     return (
         <Box>
@@ -40,6 +68,17 @@ export const PostDetail = ({ data }) => {
                             </Box>
                         </Stack>
                     </CardContent>
+                    <CardActions>
+                        <Button color='warning' variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} startIcon={<StarRoundedIcon />} disableElevation onClick={handleLike}>
+                            {data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "Unlike" : "Like"}
+                        </Button>
+                        {
+                            data.getSinglePost.user.username === userContext.username &&
+                            <Button color='error' variant='contained' startIcon={<DeleteRoundedIcon />} disableElevation onClick={() => alert("DELETED")}>
+                                Delete
+                            </Button>
+                        }
+                    </CardActions>
                 </Card>
                 <Card variant='outlined'>
                     <CardContent>
