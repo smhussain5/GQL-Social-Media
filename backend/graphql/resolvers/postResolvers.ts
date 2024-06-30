@@ -83,12 +83,13 @@ const postResolvers = {
             const userViaAuthHeader = checkAuthentication(context)
             // DELETE POST
             try {
+                // CHECK IF POST EXISTS IN DATABASE
                 const postDataBase = await prisma.post.findUnique({
                     where: {
                         id: postId,
                     }
                 });
-                if (postDataBase && postDataBase.userId === userViaAuthHeader.userId) {
+                if (postDataBase && postDataBase.userId === userViaAuthHeader.id) {
                     await prisma.post.delete({
                         where: {
                             id: postId,

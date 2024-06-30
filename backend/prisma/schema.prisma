@@ -31,7 +31,7 @@ model Post {
   id        String   @id @default(uuid())
   body      String
   createdAt DateTime @default(now()) @db.Date
-  user      User     @relation("UserPosts", fields: [userId], references: [id])
+  user      User     @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   likedBy   User[]   @relation("UserLikedPosts")
   replies   Reply[]
@@ -41,8 +41,8 @@ model Reply {
   id        String   @id @default(uuid())
   body      String
   createdAt DateTime @default(now()) @db.Date
-  post      Post?    @relation(fields: [postId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String?
-  user      User     @relation("UserReplies", fields: [userId], references: [id])
+  user      User     @relation("UserReplies", fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }

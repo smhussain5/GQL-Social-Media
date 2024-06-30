@@ -9,11 +9,9 @@ export const CommentsCard = ({ data }) => {
         numberOfComments ?
             <Box>
                 <Stack direction={'row'}>
-                    <AvatarGroup total={numberOfLikes}>
-                        <Avatar variant='circular'>
-                            {data.getSinglePost.likedBy[0].username[0]}
-                        </Avatar>
-                    </AvatarGroup>
+                    <Typography>
+                        COMMENTS HERE
+                    </Typography>
                 </Stack>
             </Box>
             :
