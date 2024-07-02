@@ -2,7 +2,7 @@
 import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { ProfileDetail } from '../components/ProfileDetail'
+import { ProfileDetail } from '../components/ProfileDetail';
 
 const GET_USER_BY_ID = gql`
     query GetUserById($userId: ID!) {

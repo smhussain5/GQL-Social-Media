@@ -35,8 +35,6 @@ export function Post() {
         },
     });
 
-    console.log(data);
-
     if (loading) {
         return (
             <Box padding={4}>

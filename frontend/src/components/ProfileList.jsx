@@ -1,14 +1,14 @@
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-export const ProfileList = ({ data }) => {
+export const ProfileList = ({ data, postUser }) => {
     return (
         <Box>
             <List>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar variant='square'>
-                            {data.body[0]}
+                        <Avatar variant='circle'>
+                            {postUser}
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText>

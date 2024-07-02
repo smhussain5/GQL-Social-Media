@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "Reply" ALTER COLUMN "createdAt" SET DATA TYPE TIMESTAMP;

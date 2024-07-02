@@ -73,7 +73,7 @@ const PostInputCard = ({ refetch }) => {
                 </Grid>
             </Card>
             {watch("post") &&
-                <LinearProgress variant="determinate" value={watch("post").length > 150 ? 100 : (watch("post")?.length * 100) / 150} color={watch("post").length > 150 ? "error" : "primary"} disableStrink />
+                <LinearProgress variant="determinate" value={watch("post").length > 150 ? 100 : (watch("post")?.length * 100) / 150} color={watch("post").length > 150 ? "error" : "primary"} />
             }
         </Box>
     )

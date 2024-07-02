@@ -16,9 +16,17 @@ const LIKE_POST = gql`
     }
 `;
 
+const DELETE_POST = gql`
+    mutation DeletePost($postId: ID!) {
+        deleteSinglePost(postId: $postId)
+    }
+`;
+
 export const PostDetail = ({ data, refetch }) => {
 
-    const [likePostMutation, { error }] = useMutation(LIKE_POST);
+    const [likePostMutation, { error: likeError }] = useMutation(LIKE_POST);
+
+    const [deletePostMutation, { error: deleteError }] = useMutation(DELETE_POST);
 
     const navigateTo = useNavigate();
 
@@ -38,6 +46,23 @@ export const PostDetail = ({ data, refetch }) => {
             alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
         }
     };
+
+    const handleDelete = async () => {
+        if (confirm("Are you sure? This action cannot be undone!")) {
+            try {
+                await deletePostMutation({
+                    variables: {
+                        "postId": data.getSinglePost.id
+                    }
+                });
+                navigateTo("/");
+            } catch (error) {
+                alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
+            }
+        } else {
+            return;
+        }
+    }
 
     return (
         <Box>
@@ -74,7 +99,7 @@ export const PostDetail = ({ data, refetch }) => {
                         </Button>
                         {
                             data.getSinglePost.user.username === userContext.username &&
-                            <Button color='error' variant='contained' startIcon={<DeleteRoundedIcon />} disableElevation onClick={() => alert("DELETED")}>
+                            <Button color='error' variant='contained' startIcon={<DeleteRoundedIcon />} disableElevation onClick={handleDelete}>
                                 Delete
                             </Button>
                         }
