@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar, AvatarGroup, Box, Card, CardContent, CardActionArea, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Card, CardContent, CardHeader, CardActionArea, Stack, Typography, List, ListItem, ListItemText } from '@mui/material';
+import moment from 'moment';
 
 export const CommentsCard = ({ data }) => {
 
@@ -8,17 +9,32 @@ export const CommentsCard = ({ data }) => {
     return (
         numberOfComments ?
             <Box>
-                <Stack direction={'row'}>
-                    <Typography>
-                        COMMENTS HERE
-                    </Typography>
-                </Stack>
+                <Card variant='outlined'>
+                    <CardContent>
+                        <List>
+                            {data.getSinglePost.replies.map((comment) => {
+                                return (
+                                    <ListItem key={comment.id}>
+                                        <ListItemText
+                                            primary={comment.body}
+                                            secondary={moment(Number(comment.createdAt)).fromNow()}
+                                        />
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    </CardContent>
+                </Card>
             </Box>
             :
             <Box>
-                <Typography>
-                    No comments yet!
-                </Typography>
+                <Card variant='outlined'>
+                    <CardContent>
+                        <Typography>
+                            No comments yet!
+                        </Typography>
+                    </CardContent>
+                </Card>
             </Box>
     )
 }

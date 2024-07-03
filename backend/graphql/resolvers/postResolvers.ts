@@ -32,7 +32,11 @@ const postResolvers = {
                     relationLoadStrategy: 'join',
                     include: {
                         user: true,
-                        replies: true,
+                        replies: {
+                            orderBy: {
+                                createdAt: 'desc'
+                            }
+                        },
                         likedBy: true,
                     },
                     where: {

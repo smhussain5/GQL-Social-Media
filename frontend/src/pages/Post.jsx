@@ -3,6 +3,8 @@ import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { PostDetail } from '../components/PostDetail';
+import { CommentsCard } from "../components/CommentsCard";
+import { ReplyInputCard } from "../components/ReplyInputCard"
 
 const GET_POST_BY_ID = gql`
     query GetPostById($postId: ID!) {
@@ -18,6 +20,8 @@ const GET_POST_BY_ID = gql`
                 username
             }
             replies {
+                id
+                createdAt
                 body
                 userId
             }
@@ -29,7 +33,7 @@ export function Post() {
 
     const { postIdParameter } = useParams();
 
-    const { loading, error, data, refetch } = useQuery(GET_POST_BY_ID, {
+    const { loading, error, data } = useQuery(GET_POST_BY_ID, {
         variables: {
             "postId": postIdParameter
         },
@@ -54,7 +58,9 @@ export function Post() {
         return (
             <Box padding={4}>
                 <Stack direction={'column'} spacing={2}>
-                    <PostDetail data={data} refetch={refetch} />
+                    <PostDetail data={data} />
+                    <CommentsCard data={data} />
+                    <ReplyInputCard postIdParameter={postIdParameter} />
                     <Typography>
                         {JSON.stringify(data.getSinglePost)}
                     </Typography>
@@ -64,4 +70,6 @@ export function Post() {
     }
 }
 
-export default Post
+export { GET_POST_BY_ID };
+
+export default Post;

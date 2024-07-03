@@ -1,19 +1,21 @@
-// import React from 'react'
+// import React from 'react';
 import { useForm } from "react-hook-form";
-import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from '@mui/material';
+import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from "@mui/material";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { GET_ALL_POSTS } from '../pages/Home';
+import { GET_POST_BY_ID } from "../pages/Post";
 import { gql, useMutation } from '@apollo/client';
 
-const CREATE_POST = gql`
-    mutation AddPost($postInput: PostInput) {
-        createPost(postInput: $postInput) {
+const ADD_COMMENT = gql`
+    mutation AddComment($replyInput: ReplyInput) {
+        createReply(replyInput: $replyInput) {
             __typename
         }
     }
 `;
 
-const PostInputCard = () => {
+export const ReplyInputCard = ({ postIdParameter }) => {
+
+    console.log(postIdParameter);
 
     const {
         register,
@@ -23,18 +25,19 @@ const PostInputCard = () => {
         reset
     } = useForm();
 
-    const [createPostMutation, { data, error }] = useMutation(CREATE_POST, {
+    const [addPostMutation, { data, error }] = useMutation(ADD_COMMENT, {
         refetchQueries: [
-            GET_ALL_POSTS
+            GET_POST_BY_ID
         ],
     });
 
     const onSubmit = async (formData) => {
         try {
-            const { data } = await createPostMutation({
+            const { data } = await addPostMutation({
                 variables: {
-                    "postInput": {
-                        "body": formData.post
+                    "replyInput": {
+                        "body": formData.comment,
+                        "postId": postIdParameter
                     }
                 }
             });
@@ -42,10 +45,10 @@ const PostInputCard = () => {
         } catch (error) {
             alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
         }
-    };
+    }
 
     return (
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off" >
             <Card variant='outlined'>
                 <Grid container alignItems={'center'}>
                     <Grid item xs={11}>
@@ -53,7 +56,7 @@ const PostInputCard = () => {
                             <TextField
                                 label="Share your thoughts!"
                                 fullWidth
-                                {...register("post", {
+                                {...register("comment", {
                                     required: true,
                                     maxLength: 150
                                 })}
@@ -63,9 +66,9 @@ const PostInputCard = () => {
                     <Grid item xs={1}>
                         <CardActions>
                             <Button variant='text' disableElevation type="submit">
-                                {watch("post")?.length > 150 ?
+                                {watch("comment")?.length > 150 ?
                                     <Typography color={"error"}>
-                                        {watch("post").length}
+                                        {watch("comment").length}
                                     </Typography> :
                                     <SendRoundedIcon />
                                 }
@@ -76,11 +79,12 @@ const PostInputCard = () => {
                     </Grid>
                 </Grid>
             </Card>
-            {watch("post") &&
-                <LinearProgress variant="determinate" value={watch("post").length > 150 ? 100 : (watch("post")?.length * 100) / 150} color={watch("post").length > 150 ? "error" : "primary"} />
+            {
+                watch("comment") &&
+                <LinearProgress variant="determinate" value={watch("comment").length > 150 ? 100 : (watch("comment")?.length * 100) / 150} color={watch("comment").length > 150 ? "error" : "primary"} />
             }
-        </Box>
+        </Box >
     )
 }
 
-export default PostInputCard
+export default ReplyInputCard

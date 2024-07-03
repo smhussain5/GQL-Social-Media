@@ -3,6 +3,7 @@ import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
 import { gql, useQuery } from '@apollo/client';
 import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
+import { useLayoutEffect } from 'react';
 
 const GET_ALL_POSTS = gql`
     query {
@@ -19,7 +20,11 @@ const GET_ALL_POSTS = gql`
 
 export function Home() {
 
-    const { loading, error, refetch, data } = useQuery(GET_ALL_POSTS);
+    const { loading, error, data, refetch } = useQuery(GET_ALL_POSTS);
+
+    useLayoutEffect(() => {
+        refetch();
+    });
 
     if (loading) {
         return (
@@ -40,7 +45,7 @@ export function Home() {
         return (
             <Box padding={4}>
                 <Stack spacing={2}>
-                    <PostInputCard refetch={refetch} />
+                    <PostInputCard />
                     <Stack direction={'column'} spacing={2}>
                         {data.getAllPosts.map((post) => (
                             <PostCard key={post.id} data={post} />
@@ -52,4 +57,6 @@ export function Home() {
     }
 }
 
-export default Home
+export { GET_ALL_POSTS };
+
+export default Home;

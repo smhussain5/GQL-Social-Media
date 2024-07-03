@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, Stack, Typography } from '@mui/material';
-import TimelapseRoundedIcon from '@mui/icons-material/TimelapseRounded';
+import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Stack, Typography } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { useNavigate } from 'react-router-dom';
 import { LikesCard } from './LikesCard';
 import { CommentsCard } from './CommentsCard';
 import moment from 'moment';
+import { GET_POST_BY_ID } from "../pages/Post";
 import { gql, useMutation } from '@apollo/client';
 
 const LIKE_POST = gql`
@@ -22,9 +22,13 @@ const DELETE_POST = gql`
     }
 `;
 
-export const PostDetail = ({ data, refetch }) => {
+export const PostDetail = ({ data }) => {
 
-    const [likePostMutation, { error: likeError }] = useMutation(LIKE_POST);
+    const [likePostMutation, { error: likeError }] = useMutation(LIKE_POST, {
+        refetchQueries: [
+            GET_POST_BY_ID
+        ],
+    });
 
     const [deletePostMutation, { error: deleteError }] = useMutation(DELETE_POST);
 
@@ -41,7 +45,6 @@ export const PostDetail = ({ data, refetch }) => {
                     "postId": data.getSinglePost.id
                 }
             });
-            refetch();
         } catch (error) {
             alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
         }
@@ -55,7 +58,7 @@ export const PostDetail = ({ data, refetch }) => {
                         "postId": data.getSinglePost.id
                     }
                 });
-                navigateTo("/");
+                navigateTo(-1);
             } catch (error) {
                 alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
             }
@@ -68,30 +71,22 @@ export const PostDetail = ({ data, refetch }) => {
         <Box>
             <Stack direction={'column'} spacing={2}>
                 <Card variant='outlined'>
+                    <CardActionArea>
+                        <CardHeader
+                            avatar={
+                                <Avatar variant='circular' sx={{ bgcolor: 'primary.main' }}>
+                                    {data.getSinglePost.user.username[0]}
+                                </Avatar>
+                            }
+                            title={data.getSinglePost.user.username}
+                            subheader={moment(Number(data.getSinglePost.createdAt)).calendar()}
+                            onClick={() => { navigateTo(`/users/${userId}`) }}
+                        />
+                    </CardActionArea>
                     <CardContent>
-                        <Stack direction={'column'} spacing={2}>
-                            <CardActionArea onClick={() => { navigateTo(`/users/${userId}`) }}>
-                                <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='circular' sx={{ bgcolor: 'primary.main' }}>
-                                        {data.getSinglePost.user.username[0]}
-                                    </Avatar>
-                                    <Typography variant='body1' fontWeight={'bold'}>
-                                        {data.getSinglePost.user.username}
-                                    </Typography>
-                                </Stack>
-                            </CardActionArea>
-                            <Typography variant='h4'>
-                                {data.getSinglePost.body}
-                            </Typography>
-                            <Box>
-                                <Stack direction={'row-reverse'} spacing={2} alignItems={'center'}>
-                                    <Typography variant='subtitle2'>
-                                        {moment(Number(data.getSinglePost.createdAt)).calendar()}
-                                    </Typography>
-                                    <TimelapseRoundedIcon sx={{ color: 'info.main' }} />
-                                </Stack>
-                            </Box>
-                        </Stack>
+                        <Typography>
+                            {data.getSinglePost.body}
+                        </Typography>
                     </CardContent>
                     <CardActions>
                         <Button color='warning' variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} startIcon={<StarRoundedIcon />} disableElevation onClick={handleLike}>
@@ -108,11 +103,6 @@ export const PostDetail = ({ data, refetch }) => {
                 <Card variant='outlined'>
                     <CardContent>
                         <LikesCard data={data} />
-                    </CardContent>
-                </Card>
-                <Card variant='outlined'>
-                    <CardContent>
-                        <CommentsCard data={data} />
                     </CardContent>
                 </Card>
             </Stack>
