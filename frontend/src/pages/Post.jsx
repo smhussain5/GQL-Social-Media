@@ -21,9 +21,12 @@ const GET_POST_BY_ID = gql`
             }
             replies {
                 id
-                createdAt
                 body
-                userId
+                createdAt
+                user {
+                    id
+                    username
+                }
             }
         }
     }

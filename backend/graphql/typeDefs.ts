@@ -4,7 +4,7 @@ const typeDefs = gql`
     type User {
         id: ID!
         username: String!
-        password: Int!
+        password: String!
         token: String!
         createdAt: String!
         posts: [Post!]
