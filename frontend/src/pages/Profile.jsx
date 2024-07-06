@@ -42,13 +42,13 @@ export function Profile() {
 
     if (loading) {
         return (
-            <Box padding={4}>
+            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
                 <LinearProgress variant='indeterminate' />
             </Box>
         )
     } else if (error) {
         return (
-            <Box padding={4}>
+            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
                 <Alert variant='standard' severity='error'>
                     <AlertTitle>Error!</AlertTitle>
                     {error.message}
@@ -57,7 +57,7 @@ export function Profile() {
         )
     } else {
         return (
-            <Box padding={4}>
+            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
                 <ProfileDetail data={data} />
                 <Typography>
                     {JSON.stringify(data.getSingleUser)}
