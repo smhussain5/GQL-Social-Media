@@ -62,8 +62,8 @@ export function Post() {
             <Box padding={4}>
                 <Stack direction={'column'} spacing={2}>
                     <PostDetail data={data} />
-                    <CommentsCard data={data} />
                     <ReplyInputCard postIdParameter={postIdParameter} />
+                    <CommentsCard data={data} />
                     <Typography>
                         {JSON.stringify(data.getSinglePost)}
                     </Typography>

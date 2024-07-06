@@ -45,6 +45,7 @@ const typeDefs = gql`
         likePost(postId: ID!): String!
         followUser(userId: ID!): String!
         createReply(replyInput: ReplyInput): Reply!
+        deleteReply(replyId: ID!): String!
     }
     input RegistrationInput {
         username: String!

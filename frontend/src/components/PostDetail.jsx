@@ -5,7 +5,6 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { useNavigate } from 'react-router-dom';
 import { LikesCard } from './LikesCard';
-import { CommentsCard } from './CommentsCard';
 import moment from 'moment';
 import { GET_POST_BY_ID } from "../pages/Post";
 import { gql, useMutation } from '@apollo/client';

@@ -15,8 +15,6 @@ const ADD_COMMENT = gql`
 
 export const ReplyInputCard = ({ postIdParameter }) => {
 
-    console.log(postIdParameter);
-
     const {
         register,
         handleSubmit,

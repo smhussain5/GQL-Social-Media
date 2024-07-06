@@ -52,6 +52,27 @@ const replyResolvers = {
             } catch (err) {
                 throw new Error(String(err));
             }
+        },
+        async deleteReply(_, { replyId }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context);
+            try {
+                const replyDataBase = await prisma.reply.findUnique({
+                    where: {
+                        id: replyId,
+                    }
+                });
+                if (replyDataBase && replyDataBase.userId === userViaAuthHeader.id) {
+                    await prisma.reply.delete({
+                        where: {
+                            id: replyId,
+                        }
+                    });
+                    return "Successful!";
+                }
+            } catch (err) {
+                throw new Error(String(err));
+            }
         }
     }
 }
