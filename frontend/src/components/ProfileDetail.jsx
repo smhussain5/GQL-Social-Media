@@ -7,9 +7,18 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import { gql, useMutation } from '@apollo/client';
+import { GET_USER_BY_ID } from '../pages/Profile';
 import { useState } from 'react';
 import moment from 'moment';
+
+const FOLLOW_USER = gql`
+    mutation FollowUser($userId: ID!) {
+        followUser(userId: $userId)
+    }
+`;
 
 export const ProfileDetail = ({ data }) => {
 
@@ -17,6 +26,24 @@ export const ProfileDetail = ({ data }) => {
 
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
+
+    const [followUserMutation, { error }] = useMutation(FOLLOW_USER, {
+        refetchQueries: [
+            GET_USER_BY_ID
+        ],
+    })
+
+    const handleFollowUser = async () => {
+        try {
+            await followUserMutation({
+                variables: {
+                    "userId": data.getSingleUser.id
+                }
+            });
+        } catch (error) {
+            alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
+        }
+    }
 
     const [toggleOption, setToggleOption] = useState({
         "VALUE": "POSTS",
@@ -59,13 +86,13 @@ export const ProfileDetail = ({ data }) => {
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <NotesRoundedIcon fontSize='medium' color='success' />
                                     <Typography>
-                                        {data.getSingleUser.posts.length} post(s)
+                                        {data.getSingleUser.posts.length} {data.getSingleUser.posts.length === 1 ? 'post' : 'posts'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <StarRoundedIcon fontSize='medium' color='warning' />
                                     <Typography>
-                                        {data.getSingleUser.likedPosts.length} like(s)
+                                        {data.getSingleUser.likedPosts.length} {data.getSingleUser.likedPosts.length === 1 ? 'like' : 'likes'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
@@ -77,7 +104,7 @@ export const ProfileDetail = ({ data }) => {
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <FavoriteRoundedIcon fontSize='medium' color='error' />
                                     <Typography>
-                                        {data.getSingleUser.followers.length} follower(s)
+                                        {data.getSingleUser.followers.length} {data.getSingleUser.followers.length === 1 ? 'follower' : 'followers'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
@@ -88,8 +115,8 @@ export const ProfileDetail = ({ data }) => {
                                 </Stack>
                                 {
                                     data.getSingleUser.username !== userContext.username &&
-                                    <Button startIcon={<AddCircleOutlineRoundedIcon />} variant='contained' disableElevation onClick={() => alert("FOLLOWED!")}>
-                                        Follow
+                                    <Button startIcon={data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? <RemoveRoundedIcon /> : <AddRoundedIcon />} variant={data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? 'outlined' : 'contained'} disableElevation onClick={handleFollowUser}>
+                                        {data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? 'Unfollow' : 'Follow'}
                                     </Button>
                                 }
                             </Stack>

@@ -61,7 +61,7 @@ export const CommentsCard = ({ data }) => {
                                         />
                                         {
                                             comment.user.username === userContext.username &&
-                                            <Button onClick={() => { handleReplyDelete(comment) }}>
+                                            <Button color="error" onClick={() => { handleReplyDelete(comment) }}>
                                                 <DeleteRoundedIcon />
                                             </Button>
                                         }

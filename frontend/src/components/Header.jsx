@@ -1,13 +1,20 @@
 // TODO: Make Header component responsive, with menu open/close
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
+import ThemeContext from "../context/ThemeContext.js";
+import { customThemeBase } from "../theme/customThemeBase.js"
+import { customThemeDark } from '../theme/customThemeDark.js';
 import { NavLink, useNavigate } from 'react-router-dom'
-import { AppBar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, IconButton, Stack, Switch, Toolbar, Typography } from '@mui/material';
 import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 
 // const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
 export const Header = () => {
+
+    const { setThemeContext } = useContext(ThemeContext);
 
     const { userContext, setUserContext } = useContext(AuthContext);
 
@@ -33,28 +40,31 @@ export const Header = () => {
         navigateTo("/login");
     }
 
+    const handleThemeChange = (event) => {
+        if (event.target.checked) {
+            setThemeContext(customThemeDark);
+        } else {
+            setThemeContext(customThemeBase);
+        }
+    };
+
     return (
-        <AppBar position='static' elevation={0}>
-            <Toolbar>
-                <IconButton component={NavLink} to="/" size='large' edge='start' color='inherit'>
-                    <AdjustRoundedIcon />
-                </IconButton>
-                <Typography sx={{ flexGrow: 1 }}>
-                    {userContext.username}
-                </Typography>
+        <AppBar position='static'>
+            <Toolbar sx={{ justifyContent: 'flex-end' }}>
                 <Stack direction="row" spacing={2}>
                     {userContext.jwtToken ?
                         <>
-                            <Button component={NavLink} to="/" variant='contained' disableElevation>Home</Button>
-                            <Button component={NavLink} to={`/users/${userContext.id}`} variant='contained' disableElevation>Profile</Button>
-                            <Button onClick={handleLogout} variant='contained' disableElevation>Logout</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/">Home</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to={`/users/${userContext.id}`}>Profile</Button>
+                            <Button variant='text' color='inherit' onClick={handleLogout}>Logout</Button>
                         </>
                         :
                         <>
-                            <Button component={NavLink} to="/login" variant='contained' disableElevation>Login</Button>
-                            <Button component={NavLink} to="/register" variant='contained' disableElevation>Register</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/login">Login</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/register">Register</Button>
                         </>
                     }
+                    <Switch onChange={handleThemeChange} />
                 </Stack>
             </Toolbar>
         </AppBar >

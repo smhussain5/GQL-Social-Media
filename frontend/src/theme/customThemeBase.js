@@ -3,70 +3,39 @@ import { createTheme } from '@mui/material';
 export const customThemeBase = createTheme({
     palette: {
         mode: 'light',
-        secondary: {
-            main: '#D946EF'
-        },
+        // primary: {
+        //     main: '#fff'
+        // },
+        // secondary: {
+        //     main: '#D946EF'
+        // },
+        // TAILWIND ROSE 500
         error: {
-            main: '#F87171'
+            main: '#F43F5E'
         },
+        // TAILWIND AMBER 500
         warning: {
-            main: '#FACC15'
+            main: '#F59E0B'
         },
+        // TAILWIND BLUE 500
         info: {
-            main: '#38BDF8'
+            main: '#3B82F6'
         },
+        // TAILWIND GREEN 500
         success: {
-            main: '#4ADE80'
-        },
+            main: '#22C55E'
+        }
     },
     typography: {
         fontFamily: 'Roboto'
     },
     components: {
-        MuiCardContent: {
-            styleOverrides: {
-                root: {
-                    padding: 16,
-                    '&:last-child': {
-                        paddingBottom: 16,
-                    },
-                }
-            }
-        },
-        MuiCard: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiToggleButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiOutlinedInput: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
         MuiFormHelperText: {
             styleOverrides: {
                 root: {
                     color: '#F43F5E'
                 }
             }
-        },
+        }
     }
 });

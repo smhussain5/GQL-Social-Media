@@ -1,13 +1,11 @@
+import { ThemeContextProvider } from "./context/ThemeContextProvider.jsx"
+import { AuthContextProvider } from './context/AuthContextProvider.jsx'
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
-import { ThemeProvider } from '@mui/material';
-import { customThemeBase } from "./theme/customThemeBase.js"
-import { customThemeDark } from './theme/customThemeDark.js';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthContextProvider } from './context/AuthContextProvider.jsx'
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/"
@@ -30,12 +28,12 @@ const apolloClient = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={apolloClient}>
-    <ThemeProvider theme={customThemeBase}>
+    <ThemeContextProvider>
       <AuthContextProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </AuthContextProvider>
-    </ThemeProvider>
+    </ThemeContextProvider>
   </ApolloProvider>
 )

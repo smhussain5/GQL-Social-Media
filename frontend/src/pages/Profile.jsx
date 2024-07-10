@@ -67,4 +67,6 @@ export function Profile() {
     }
 }
 
-export default Profile
+export { GET_USER_BY_ID };
+
+export default Profile;

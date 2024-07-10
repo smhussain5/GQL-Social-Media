@@ -3,67 +3,39 @@ import { createTheme } from '@mui/material';
 export const customThemeDark = createTheme({
     palette: {
         mode: 'dark',
-        secondary: {
-            main: '#D946EF'
-        },
+        // primary: {
+        //     main: '#D946EF'
+        // },
+        // secondary: {
+        //     main: '#D946EF'
+        // },
+        // TAILWIND ROSE 300
         error: {
-            main: '#fca5a5'
+            main: '#FDA4AF'
         },
+        // TAILWIND AMBER 300
         warning: {
-            main: '#fde047'
+            main: '#FCD34D'
         },
+        // TAILWIND BLUE 300
         info: {
-            main: '#7dd3fc'
+            main: '#93C5FD'
         },
+        // TAILWIND GREEN 300
         success: {
-            main: '#86efac'
+            main: '#86EFAC'
         },
         background: {
-            default: '#000',
+            // TAILWIND ZINC 950
+            default: '#09090B',
+            // TAILWIND ZINC 900
+            paper: '#18181B'
         }
     },
     typography: {
         fontFamily: 'Roboto'
     },
     components: {
-        MuiCardContent: {
-            styleOverrides: {
-                root: {
-                    padding: 16,
-                    '&:last-child': {
-                        paddingBottom: 16,
-                    },
-                }
-            }
-        },
-        MuiCard: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiToggleButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
-        MuiOutlinedInput: {
-            styleOverrides: {
-                root: {
-                    borderRadius: 0,
-                }
-            }
-        },
         MuiFormHelperText: {
             styleOverrides: {
                 root: {
@@ -71,5 +43,13 @@ export const customThemeDark = createTheme({
                 }
             }
         },
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    // TAILWIND ZINC 200
+                    color: '#E4E4E7'
+                }
+            }
+        }
     }
 });

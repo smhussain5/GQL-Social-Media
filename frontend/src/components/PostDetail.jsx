@@ -88,13 +88,13 @@ export const PostDetail = ({ data }) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button color='warning' variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} startIcon={<StarRoundedIcon />} disableElevation onClick={handleLike}>
-                            {data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "Unlike" : "Like"}
+                        <Button color='warning' variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} disableElevation onClick={handleLike}>
+                            <StarRoundedIcon />
                         </Button>
                         {
                             data.getSinglePost.user.username === userContext.username &&
-                            <Button color='error' variant='contained' startIcon={<DeleteRoundedIcon />} disableElevation onClick={handleDelete}>
-                                Delete
+                            <Button color='error' onClick={handleDelete}>
+                                <DeleteRoundedIcon />
                             </Button>
                         }
                     </CardActions>

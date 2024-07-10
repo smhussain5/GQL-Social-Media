@@ -20,16 +20,16 @@ export const PostCard = ({ data }) => {
                         <Grid container alignItems='center' spacing={2}>
                             <Grid item xs={11}>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='circular' sx={{ bgcolor: user.username === userContext.username ? 'info.light' : 'primary.main' }}>
+                                    <Avatar variant='circular' sx={{ bgcolor: user.username === userContext.username ? 'warning.main' : 'primary.main' }}>
                                         {user.username[0]}
                                     </Avatar>
-                                    <Typography variant='body1' color={user.username === userContext.username ? 'info.dark' : ''}>
+                                    <Typography variant='body1'>
                                         {body}
                                     </Typography>
                                 </Stack>
                             </Grid>
                             <Grid item xs={1} >
-                                <Typography variant='caption' color={user.username === userContext.username ? 'info.dark' : ''}>
+                                <Typography variant='caption'>
                                     {moment(Number(createdAt)).fromNow()}
                                 </Typography>
                             </Grid>
