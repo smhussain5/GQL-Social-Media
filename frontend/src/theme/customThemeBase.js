@@ -3,29 +3,29 @@ import { createTheme } from '@mui/material';
 export const customThemeBase = createTheme({
     palette: {
         mode: 'light',
-        // TAILWIND BLUE 500
+        // TAILWIND SLATE 400
         primary: {
-            main: '#3B82F6'
+            main: '#94A3B8'
         },
-        // TAILWIND PURPLE 500
+        // TAILWIND FUCHSIA 400
         secondary: {
-            main: '#A855F7'
+            main: '#E879F9'
         },
-        // TAILWIND RED 500
+        // TAILWIND ROSE 400
         error: {
-            main: '#EF4444'
+            main: '#FB7185'
         },
-        // TAILWIND AMBER 500
+        // TAILWIND YELLOW 400
         warning: {
-            main: '#F59E0B'
+            main: '#FACC15'
         },
-        // TAILWIND CYAN 500
+        // TAILWIND CYAN 400
         info: {
-            main: '#38BDF8'
+            main: '#22D3EE'
         },
-        // TAILWIND GREEN 500
+        // TAILWIND TEAL 400
         success: {
-            main: '#22C55E'
+            main: '#2DD4BF'
         }
     },
     typography: {

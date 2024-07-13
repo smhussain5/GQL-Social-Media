@@ -1,5 +1,16 @@
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material';
-import React from 'react';
+import {
+    Avatar,
+    Box,
+    Button,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Stack,
+    Typography
+} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 
 export const ProfileList = ({ data, postUser }) => {
     return (
@@ -8,12 +19,13 @@ export const ProfileList = ({ data, postUser }) => {
                 <ListItem>
                     <ListItemAvatar>
                         <Avatar variant='circle'>
-                            {postUser}
+                            {postUser[0]}
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText>
-                        {data.body}
-                    </ListItemText>
+                    <ListItemText primary={data.body} secondary={postUser} />
+                    <Button component={RouterLink} to={`/posts/${data.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                        Post
+                    </Button>
                 </ListItem>
             </List>
         </Box>

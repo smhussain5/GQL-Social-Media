@@ -145,7 +145,7 @@ export const ProfileDetail = ({ data }) => {
                         <CardContent>
                             <Typography>
                                 {toggleOption.FUNCTION.map((toggleOptionItem) => (
-                                    <ProfileList key={toggleOptionItem.id} data={toggleOptionItem} postUser={data.getSingleUser.username[0]} />
+                                    <ProfileList key={toggleOptionItem.id} data={toggleOptionItem} postUser={data.getSingleUser.username} />
                                 ))}
                             </Typography>
                         </CardContent>

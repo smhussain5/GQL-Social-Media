@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { PostDetail } from '../components/PostDetail';
@@ -17,6 +17,7 @@ const GET_POST_BY_ID = gql`
             }
             createdAt
             likedBy {
+                id
                 username
             }
             replies {
@@ -64,9 +65,6 @@ export function Post() {
                     <PostDetail data={data} />
                     <ReplyInputCard postIdParameter={postIdParameter} />
                     <CommentsCard data={data} />
-                    <Typography>
-                        {JSON.stringify(data.getSinglePost)}
-                    </Typography>
                 </Stack>
             </Box>
         )

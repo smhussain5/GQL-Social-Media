@@ -17,13 +17,18 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    ListItemButton,
     Stack,
     Typography
 } from '@mui/material';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { useNavigate } from 'react-router-dom';
-import { LikesCard } from './LikesCard';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
 import { GET_POST_BY_ID } from "../pages/Post";
 import { gql, useMutation } from '@apollo/client';
@@ -65,6 +70,7 @@ export const PostDetail = ({ data }) => {
     };
 
     const userId = data.getSinglePost.user.id;
+    const likedByObject = data.getSinglePost.likedBy;
     const likesCount = data.getSinglePost.likedBy.length;
 
     const postUsername = data.getSinglePost.user.username;
@@ -121,7 +127,7 @@ export const PostDetail = ({ data }) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <ButtonGroup color='warning'>
+                        <ButtonGroup color={'warning'}>
                             <Button variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} disableElevation onClick={handleLike}>
                                 <StarRoundedIcon />
                             </Button>
@@ -137,15 +143,30 @@ export const PostDetail = ({ data }) => {
                         }
                     </CardActions>
                 </Card>
-                <LikesCard data={data} />
-                <Dialog open={open} onClose={handleClose}>
+                <Dialog open={open} onClose={handleClose} fullWidth scroll="paper">
                     <DialogTitle>
                         {'Likes'}
                     </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            {JSON.stringify(data.getSinglePost.likedBy)}
-                        </DialogContentText>
+                    <DialogContent dividers>
+                        <List>
+                            {
+                                likedByObject.map((user) => {
+                                    return (
+                                        <ListItem key={user.id}>
+                                            <ListItemAvatar>
+                                                <Avatar variant='circular'>
+                                                    {user.username[0]}
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={user.username} />
+                                            <Button component={RouterLink} to={`/users/${user.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                Profile
+                                            </Button>
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </List>
                     </DialogContent>
                 </Dialog>
             </Stack>
