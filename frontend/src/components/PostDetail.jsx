@@ -36,6 +36,7 @@ export const PostDetail = ({ data }) => {
     const { userContext } = useContext(AuthContext);
 
     const userId = data.getSinglePost.user.id;
+    const likesCount = data.getSinglePost.likedBy.length;
 
     const handleLike = async () => {
         try {

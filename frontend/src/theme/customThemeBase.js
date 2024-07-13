@@ -3,23 +3,25 @@ import { createTheme } from '@mui/material';
 export const customThemeBase = createTheme({
     palette: {
         mode: 'light',
-        // primary: {
-        //     main: '#fff'
-        // },
-        // secondary: {
-        //     main: '#D946EF'
-        // },
-        // TAILWIND ROSE 500
+        // TAILWIND BLUE 500
+        primary: {
+            main: '#3B82F6'
+        },
+        // TAILWIND PURPLE 500
+        secondary: {
+            main: '#A855F7'
+        },
+        // TAILWIND RED 500
         error: {
-            main: '#F43F5E'
+            main: '#EF4444'
         },
         // TAILWIND AMBER 500
         warning: {
             main: '#F59E0B'
         },
-        // TAILWIND BLUE 500
+        // TAILWIND CYAN 500
         info: {
-            main: '#3B82F6'
+            main: '#38BDF8'
         },
         // TAILWIND GREEN 500
         success: {
@@ -33,7 +35,7 @@ export const customThemeBase = createTheme({
         MuiFormHelperText: {
             styleOverrides: {
                 root: {
-                    color: '#F43F5E'
+                    color: '#EF4444'
                 }
             }
         }

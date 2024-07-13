@@ -12,6 +12,8 @@ export const PostCard = ({ data }) => {
 
     const { id, user, body, createdAt } = data;
 
+    const isMyPost = user.username === userContext.username;
+
     return (
         <Box>
             <Card variant='outlined'>
@@ -20,7 +22,7 @@ export const PostCard = ({ data }) => {
                         <Grid container alignItems='center' spacing={2}>
                             <Grid item xs={11}>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='circular' sx={{ bgcolor: user.username === userContext.username ? 'warning.main' : 'primary.main' }}>
+                                    <Avatar variant='circular' sx={{ bgcolor: isMyPost ? 'secondary.main' : 'primary.main' }}>
                                         {user.username[0]}
                                     </Avatar>
                                     <Typography variant='body1'>

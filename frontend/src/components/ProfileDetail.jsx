@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Avatar, Box, Button, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { ProfileList } from './ProfileList';
+import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
@@ -26,6 +27,18 @@ export const ProfileDetail = ({ data }) => {
 
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
+
+    const profileUsername = data.getSingleUser.username;
+    const postsCount = data.getSingleUser.posts.length;
+    const likesCount = data.getSingleUser.likedPosts.length;
+    const followingCount = data.getSingleUser.following.length;
+    const followersCount = data.getSingleUser.followers.length;
+    const joinDate = data.getSingleUser.createdAt;
+
+    const isMyProfile = data.getSingleUser.username !== userContext.username;
+    const isFollowingThisUser = data.getSingleUser.followers.find((obj) => obj.username === userContext.username);
+    const isFollowedByThisUser = data.getSingleUser.following.find((obj) => obj.username === userContext.username);
+    const isMutualFollowing = isFollowingThisUser && isFollowedByThisUser;
 
     const [followUserMutation, { error }] = useMutation(FOLLOW_USER, {
         refetchQueries: [
@@ -73,11 +86,15 @@ export const ProfileDetail = ({ data }) => {
                             <Stack direction={'column'} spacing={2} >
                                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                                     <Avatar variant='circular'>
-                                        {data.getSingleUser.username[0]}
+                                        {profileUsername[0]}
                                     </Avatar>
                                     <Typography fontWeight={'bold'}>
-                                        {data.getSingleUser.username}
+                                        {profileUsername}
                                     </Typography>
+                                    {
+                                        isMutualFollowing &&
+                                        <Chip label='Mutuals!' icon={<HandshakeRoundedIcon />} color='info' variant='outlined' />
+                                    }
                                 </Stack>
                                 <ToggleButtonGroup aria-label="Profile button group" fullWidth value={toggleOption.VALUE} onChange={handleToggle}>
                                     <ToggleButton value="POSTS">Posts</ToggleButton>
@@ -86,37 +103,37 @@ export const ProfileDetail = ({ data }) => {
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <NotesRoundedIcon fontSize='medium' color='success' />
                                     <Typography>
-                                        {data.getSingleUser.posts.length} {data.getSingleUser.posts.length === 1 ? 'post' : 'posts'}
+                                        {postsCount} {postsCount === 1 ? 'post' : 'posts'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <StarRoundedIcon fontSize='medium' color='warning' />
                                     <Typography>
-                                        {data.getSingleUser.likedPosts.length} {data.getSingleUser.likedPosts.length === 1 ? 'like' : 'likes'}
+                                        {likesCount} {likesCount === 1 ? 'like' : 'likes'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <GroupsRoundedIcon fontSize='medium' color='primary' />
                                     <Typography>
-                                        {data.getSingleUser.following.length} following
+                                        {followingCount} following
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <FavoriteRoundedIcon fontSize='medium' color='error' />
                                     <Typography>
-                                        {data.getSingleUser.followers.length} {data.getSingleUser.followers.length === 1 ? 'follower' : 'followers'}
+                                        {followersCount} {followersCount === 1 ? 'follower' : 'followers'}
                                     </Typography>
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <CakeRoundedIcon fontSize='medium' color='info' />
                                     <Typography>
-                                        Joined on {moment(Number(data.getSingleUser.createdAt)).format('MMMM Do YYYY')}
+                                        Joined on {moment(Number(joinDate)).format('MMMM Do YYYY')}
                                     </Typography>
                                 </Stack>
                                 {
-                                    data.getSingleUser.username !== userContext.username &&
-                                    <Button startIcon={data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? <RemoveRoundedIcon /> : <AddRoundedIcon />} variant={data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? 'outlined' : 'contained'} disableElevation onClick={handleFollowUser}>
-                                        {data.getSingleUser.followers.find((obj) => obj.username === userContext.username) ? 'Unfollow' : 'Follow'}
+                                    isMyProfile &&
+                                    <Button startIcon={isFollowingThisUser ? <RemoveRoundedIcon /> : <AddRoundedIcon />} variant={isFollowingThisUser ? 'outlined' : 'contained'} color={isFollowingThisUser ? 'error' : 'primary'} disableElevation onClick={handleFollowUser}>
+                                        {isFollowingThisUser ? 'Unfollow' : 'Follow'}
                                     </Button>
                                 }
                             </Stack>

@@ -6,9 +6,12 @@ import { customThemeBase } from "../theme/customThemeBase.js"
 import { customThemeDark } from '../theme/customThemeDark.js';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AppBar, Button, IconButton, Stack, Switch, Toolbar, Typography } from '@mui/material';
-import AdjustRoundedIcon from '@mui/icons-material/AdjustRounded';
-import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
-import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import HowToRegRoundedIcon from '@mui/icons-material/HowToRegRounded';
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 
 // const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
@@ -54,14 +57,14 @@ export const Header = () => {
                 <Stack direction="row" spacing={2}>
                     {userContext.jwtToken ?
                         <>
-                            <Button variant='text' color='inherit' component={NavLink} to="/">Home</Button>
-                            <Button variant='text' color='inherit' component={NavLink} to={`/users/${userContext.id}`}>Profile</Button>
-                            <Button variant='text' color='inherit' onClick={handleLogout}>Logout</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/" startIcon={<HomeRoundedIcon />}>Home</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to={`/users/${userContext.id}`} startIcon={<AccountBoxRoundedIcon />}>Profile</Button>
+                            <Button variant='text' color='inherit' onClick={handleLogout} startIcon={<LogoutRoundedIcon />}>Logout</Button>
                         </>
                         :
                         <>
-                            <Button variant='text' color='inherit' component={NavLink} to="/login">Login</Button>
-                            <Button variant='text' color='inherit' component={NavLink} to="/register">Register</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/login" startIcon={<LoginRoundedIcon />}>Login</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to="/register" startIcon={<HowToRegRoundedIcon />}>Register</Button>
                         </>
                     }
                     <Switch onChange={handleThemeChange} />
