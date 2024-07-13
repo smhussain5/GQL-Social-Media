@@ -1,6 +1,25 @@
-import { useContext } from "react";
+import {
+    useContext,
+    useState
+} from "react";
 import AuthContext from "../context/AuthContext";
-import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Stack, Typography } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Button,
+    ButtonGroup,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Stack,
+    Typography
+} from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { useNavigate } from 'react-router-dom';
@@ -35,8 +54,21 @@ export const PostDetail = ({ data }) => {
 
     const { userContext } = useContext(AuthContext);
 
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const userId = data.getSinglePost.user.id;
     const likesCount = data.getSinglePost.likedBy.length;
+
+    const postUsername = data.getSinglePost.user.username;
+    const isMyPost = data.getSinglePost.user.username === userContext.username;
 
     const handleLike = async () => {
         try {
@@ -75,10 +107,10 @@ export const PostDetail = ({ data }) => {
                         <CardHeader
                             avatar={
                                 <Avatar variant='circular' sx={{ bgcolor: 'primary.main' }}>
-                                    {data.getSinglePost.user.username[0]}
+                                    {postUsername[0]}
                                 </Avatar>
                             }
-                            title={data.getSinglePost.user.username}
+                            title={postUsername}
                             subheader={moment(Number(data.getSinglePost.createdAt)).calendar()}
                             onClick={() => { navigateTo(`/users/${userId}`) }}
                         />
@@ -89,22 +121,33 @@ export const PostDetail = ({ data }) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button color='warning' variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} disableElevation onClick={handleLike}>
-                            <StarRoundedIcon />
-                        </Button>
+                        <ButtonGroup color='warning'>
+                            <Button variant={data.getSinglePost.likedBy.find((obj) => obj.username === userContext.username) ? "outlined" : "contained"} disableElevation onClick={handleLike}>
+                                <StarRoundedIcon />
+                            </Button>
+                            <Button variant='contained' disableElevation onClick={likesCount !== 0 && handleClickOpen}>
+                                {likesCount}
+                            </Button>
+                        </ButtonGroup>
                         {
-                            data.getSinglePost.user.username === userContext.username &&
+                            isMyPost &&
                             <Button color='error' onClick={handleDelete}>
                                 <DeleteRoundedIcon />
                             </Button>
                         }
                     </CardActions>
                 </Card>
-                <Card variant='outlined'>
-                    <CardContent>
-                        <LikesCard data={data} />
-                    </CardContent>
-                </Card>
+                <LikesCard data={data} />
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>
+                        {'Likes'}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {JSON.stringify(data.getSinglePost.likedBy)}
+                        </DialogContentText>
+                    </DialogContent>
+                </Dialog>
             </Stack>
         </Box >
     )

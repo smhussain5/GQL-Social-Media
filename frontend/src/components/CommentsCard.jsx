@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { Link as RouterLink } from "react-router-dom";
 import { Avatar, AvatarGroup, Box, Button, Card, CardContent, CardHeader, CardActionArea, Stack, Typography, List, ListItem, ListItemText, ListItemAvatar, ListItemButton } from '@mui/material';
 import moment from 'moment';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import { GET_POST_BY_ID } from "../pages/Post";
 import { gql, useMutation } from '@apollo/client';
 
@@ -42,46 +44,39 @@ export const CommentsCard = ({ data }) => {
     }
 
     return (
-        numberOfComments ?
-            <Box>
-                <Card variant='outlined'>
-                    <CardContent>
-                        <List>
-                            {data.getSinglePost.replies.map((comment) => {
-                                return (
-                                    <ListItem key={comment.id}>
-                                        <ListItemAvatar>
-                                            <Avatar variant='circular'>
-                                                {comment.user.username[0]}
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={comment.body}
-                                            secondary={moment(Number(comment.createdAt)).fromNow()}
-                                        />
-                                        {
-                                            comment.user.username === userContext.username &&
-                                            <Button color="error" onClick={() => { handleReplyDelete(comment) }}>
-                                                <DeleteRoundedIcon />
-                                            </Button>
-                                        }
-                                    </ListItem>
-                                )
-                            })}
-                        </List>
-                    </CardContent>
-                </Card>
-            </Box>
-            :
-            <Box>
-                <Card variant='outlined'>
-                    <CardContent>
-                        <Typography>
-                            No comments yet!
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Box>
+        numberOfComments !== 0 &&
+        <Box>
+            <Card variant='outlined'>
+                <CardContent>
+                    <List>
+                        {data.getSinglePost.replies.map((comment) => {
+                            return (
+                                <ListItem key={comment.id}>
+                                    <ListItemAvatar>
+                                        <Avatar variant='circular'>
+                                            {comment.user.username[0]}
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={comment.body}
+                                        secondary={moment(Number(comment.createdAt)).fromNow()}
+                                    />
+                                    {
+                                        comment.user.username === userContext.username &&
+                                        <Button color="error" onClick={() => { handleReplyDelete(comment) }}>
+                                            <DeleteRoundedIcon />
+                                        </Button>
+                                    }
+                                    <Button startIcon={<AccountBoxRoundedIcon />} color="primary" component={RouterLink} to={`/users/${comment.user.id}`}>
+                                        Profile
+                                    </Button>
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </CardContent>
+            </Card>
+        </Box >
     )
 }
 
