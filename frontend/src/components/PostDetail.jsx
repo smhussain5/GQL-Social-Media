@@ -30,20 +30,10 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import moment from 'moment';
-import { GET_POST_BY_ID } from "../pages/Post";
-import { gql, useMutation } from '@apollo/client';
-
-const LIKE_POST = gql`
-    mutation LikePost($postId: ID!) {
-        likePost(postId: $postId)
-    }
-`;
-
-const DELETE_POST = gql`
-    mutation DeletePost($postId: ID!) {
-        deleteSinglePost(postId: $postId)
-    }
-`;
+import { GET_POST_BY_ID } from '../graphql/queries/getPostByIdQuery';
+import { DELETE_POST } from "../graphql/mutations/deletePostMutation";
+import { LIKE_POST } from "../graphql/mutations/likePostMutation";
+import { useMutation } from '@apollo/client';
 
 export const PostDetail = ({ data }) => {
 

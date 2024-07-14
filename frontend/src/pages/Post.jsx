@@ -1,37 +1,11 @@
 // import * as React from 'react';
 import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_POST_BY_ID } from '../graphql/queries/getPostByIdQuery';
 import { PostDetail } from '../components/PostDetail';
 import { CommentsCard } from "../components/CommentsCard";
 import { ReplyInputCard } from "../components/ReplyInputCard"
-
-const GET_POST_BY_ID = gql`
-    query GetPostById($postId: ID!) {
-        getSinglePost(postId: $postId) {
-            id
-            body
-            user {
-                id
-                username
-            }
-            createdAt
-            likedBy {
-                id
-                username
-            }
-            replies {
-                id
-                body
-                createdAt
-                user {
-                    id
-                    username
-                }
-            }
-        }
-    }
-`;
 
 export function Post() {
 
@@ -70,7 +44,5 @@ export function Post() {
         )
     }
 }
-
-export { GET_POST_BY_ID };
 
 export default Post;

@@ -1,34 +1,9 @@
 // import * as React from 'react';
 import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { ProfileDetail } from '../components/ProfileDetail';
-
-const GET_USER_BY_ID = gql`
-    query GetUserById($userId: ID!) {
-        getSingleUser(userId: $userId) {
-            id
-            username
-            createdAt
-            posts {
-                id
-                body
-            }
-            likedPosts {
-                id
-                body
-            }
-            followers {
-                id
-                username
-            }
-            following {
-                id
-                username
-            }
-        }
-    }
-`;
+import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
 
 export function Profile() {
 

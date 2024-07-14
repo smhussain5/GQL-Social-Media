@@ -10,16 +10,11 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { gql, useMutation } from '@apollo/client';
-import { GET_USER_BY_ID } from '../pages/Profile';
+import { useMutation } from '@apollo/client';
+import { FOLLOW_USER } from "../graphql/mutations/followUserMutation";
+import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
 import { useState } from 'react';
 import moment from 'moment';
-
-const FOLLOW_USER = gql`
-    mutation FollowUser($userId: ID!) {
-        followUser(userId: $userId)
-    }
-`;
 
 export const ProfileDetail = ({ data }) => {
 

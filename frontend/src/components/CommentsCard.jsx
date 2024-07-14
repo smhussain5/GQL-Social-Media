@@ -5,14 +5,9 @@ import { Avatar, AvatarGroup, Box, Button, Card, CardContent, CardHeader, CardAc
 import moment from 'moment';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
-import { GET_POST_BY_ID } from "../pages/Post";
-import { gql, useMutation } from '@apollo/client';
-
-const DELETE_REPLY = gql`
-    mutation DeleteReply($replyId: ID!) {
-        deleteReply(replyId: $replyId)
-    }
-`;
+import { GET_POST_BY_ID } from "../graphql/queries/getPostByIdQuery";
+import { DELETE_REPLY } from "../graphql/mutations/deleteReplyMutation";
+import { useMutation } from '@apollo/client';
 
 export const CommentsCard = ({ data }) => {
 
