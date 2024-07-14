@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';

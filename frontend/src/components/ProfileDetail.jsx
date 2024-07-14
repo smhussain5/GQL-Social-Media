@@ -1,6 +1,19 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Avatar, Box, Button, Chip, ToggleButton, ToggleButtonGroup, Card, CardActionArea, CardContent, Grid, Stack, Typography } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Button,
+    Chip,
+    ToggleButton,
+    ToggleButtonGroup,
+    Card,
+    CardActionArea,
+    CardContent,
+    Grid,
+    Stack,
+    Typography
+} from '@mui/material';
 import { ProfileList } from './ProfileList';
 import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';

@@ -1,17 +1,9 @@
-import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Card, CardContent, Link, Stack, TextField } from "@mui/material";
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import { gql, useMutation } from '@apollo/client';
-
-const REGISTER_USER = gql`
-    mutation RegisterUser($registrationInput: RegistrationInput) {
-        registerUser(registrationInput: $registrationInput) {
-            __typename
-        }
-    }
-`;
+import { useMutation } from '@apollo/client';
+import { REGISTER_USER } from '../graphql/mutations/registerUserMutation';
 
 export const RegisterForm = () => {
 

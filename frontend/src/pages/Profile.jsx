@@ -1,5 +1,11 @@
 // import * as React from 'react';
-import { Alert, AlertTitle, Box, LinearProgress, Stack, Typography } from '@mui/material';
+import {
+    Alert,
+    AlertTitle,
+    Box,
+    LinearProgress,
+    Typography
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { ProfileDetail } from '../components/ProfileDetail';
@@ -41,7 +47,5 @@ export function Profile() {
         )
     }
 }
-
-export { GET_USER_BY_ID };
 
 export default Profile;

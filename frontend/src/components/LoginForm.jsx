@@ -4,17 +4,8 @@ import AuthContext from "../context/AuthContext";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
-import { gql, useMutation } from '@apollo/client';
-
-const LOGIN_USER = gql`
-    mutation LoginUser($loginInput: LoginInput) {
-        loginUser(loginInput: $loginInput) {
-            id
-            username
-            token
-        }
-    }
-`;
+import { LOGIN_USER } from "../graphql/mutations/loginUserMutation";
+import { useMutation } from '@apollo/client';
 
 export const LoginForm = () => {
 

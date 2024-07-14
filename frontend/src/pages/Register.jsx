@@ -1,5 +1,9 @@
 // import * as React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import {
+    Box,
+    Stack,
+    Typography
+} from '@mui/material';
 import RegisterForm from '../components/RegisterForm';
 
 export function Register() {

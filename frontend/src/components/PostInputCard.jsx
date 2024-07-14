@@ -2,16 +2,9 @@
 import { useForm } from "react-hook-form";
 import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from '@mui/material';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { GET_ALL_POSTS } from '../pages/Home';
-import { gql, useMutation } from '@apollo/client';
-
-const CREATE_POST = gql`
-    mutation AddPost($postInput: PostInput) {
-        createPost(postInput: $postInput) {
-            __typename
-        }
-    }
-`;
+import { GET_ALL_POSTS } from "../graphql/queries/getAllPostsQuery";
+import { CREATE_POST } from "../graphql/mutations/createPostMutation";
+import { useMutation } from '@apollo/client';
 
 const PostInputCard = () => {
 

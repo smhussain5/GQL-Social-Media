@@ -1,22 +1,10 @@
 // TODO: USE GRID TO LAYOUT HOMEPAGE
 import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
-import { gql, useQuery } from '@apollo/client';
+import { GET_ALL_POSTS } from '../graphql/queries/getAllPostsQuery';
+import { useQuery } from '@apollo/client';
 import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
 import { useLayoutEffect } from 'react';
-
-const GET_ALL_POSTS = gql`
-    query {
-        getAllPosts {
-            id
-            user {
-                username
-            }
-            body
-            createdAt
-        }
-    }
-`;
 
 export function Home() {
 
@@ -56,7 +44,5 @@ export function Home() {
         )
     }
 }
-
-export { GET_ALL_POSTS };
 
 export default Home;

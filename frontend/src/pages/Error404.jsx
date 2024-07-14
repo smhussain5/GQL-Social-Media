@@ -1,5 +1,8 @@
-// import * as React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import {
+    Box,
+    Stack,
+    Typography
+} from '@mui/material';
 
 export function Error404() {
     return (
