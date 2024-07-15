@@ -21,6 +21,22 @@ const resolvers = {
             }
         }
     },
+    Post: {
+        user: async (parent) => {
+            try {
+                const userDataBase = await prisma.user.findUnique(
+                    {
+                        where: {
+                            id: parent.userId,
+                        }
+                    }
+                );
+                return userDataBase;
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        }
+    },
     Query: {
         ...userResolvers.Query,
         ...postResolvers.Query

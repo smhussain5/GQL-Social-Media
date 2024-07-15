@@ -1,20 +1,26 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import {
+    Alert,
     Avatar,
     Box,
     Button,
     Chip,
-    ToggleButton,
-    ToggleButtonGroup,
     Card,
     CardActionArea,
     CardContent,
     Grid,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
     Stack,
+    Tab,
     Typography
 } from '@mui/material';
-import { ProfileList } from './ProfileList';
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { Link as RouterLink } from 'react-router-dom';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
@@ -26,10 +32,15 @@ import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import { useMutation } from '@apollo/client';
 import { FOLLOW_USER } from "../graphql/mutations/followUserMutation";
 import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
-import { useState } from 'react';
 import moment from 'moment';
 
 export const ProfileDetail = ({ data }) => {
+
+    const [value, setValue] = useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     const { userContext } = useContext(AuthContext);
 
@@ -66,25 +77,6 @@ export const ProfileDetail = ({ data }) => {
         }
     }
 
-    const [toggleOption, setToggleOption] = useState({
-        "VALUE": "POSTS",
-        "FUNCTION": profilePosts
-    });
-
-    const handleToggle = (event) => {
-        if (event.target.value === "POSTS") {
-            setToggleOption({
-                "VALUE": "POSTS",
-                "FUNCTION": profilePosts
-            });
-        } else {
-            setToggleOption({
-                "VALUE": "LIKES",
-                "FUNCTION": profileLikedPosts
-            });
-        }
-    };
-
     return (
         <Box>
             <Grid container spacing={2}>
@@ -104,10 +96,6 @@ export const ProfileDetail = ({ data }) => {
                                         <Chip label='Mutuals!' icon={<HandshakeRoundedIcon />} color='info' variant='outlined' />
                                     }
                                 </Stack>
-                                <ToggleButtonGroup aria-label="Profile button group" fullWidth value={toggleOption.VALUE} onChange={handleToggle}>
-                                    <ToggleButton value="POSTS">Posts</ToggleButton>
-                                    <ToggleButton value="LIKES">Likes</ToggleButton>
-                                </ToggleButtonGroup>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
                                     <NotesRoundedIcon fontSize='medium' color='success' />
                                     <Typography>
@@ -149,18 +137,70 @@ export const ProfileDetail = ({ data }) => {
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={9}>
-                    <Card variant='outlined'>
-                        <CardContent>
-                            <Typography>
-                                {toggleOption.FUNCTION.map((toggleOptionItem) => (
-                                    <ProfileList key={toggleOptionItem.id} data={toggleOptionItem} postUser={data.getSingleUser.username} />
-                                ))}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Typography>
-                        {JSON.stringify(toggleOption.FUNCTION)}
-                    </Typography>
+                    <TabContext value={value}>
+                        <Box>
+                            <TabList onChange={handleChange}>
+                                <Tab label="Posts" value='1' />
+                                <Tab label="Likes" value='2' />
+                            </TabList>
+                        </Box>
+                        <TabPanel value='1' >
+                            <List >
+                                {
+                                    profilePosts.length !== 0 ?
+                                        profilePosts.map((post) => {
+                                            return (
+                                                <ListItem key={post.id}>
+                                                    <ListItemAvatar>
+                                                        <Avatar variant='circle'>
+                                                            {post.user.username[0]}
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={post.body}
+                                                        secondary={moment(Number(post.createdAt)).fromNow()} />
+                                                    <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                        Post
+                                                    </Button>
+                                                </ListItem>
+                                            )
+                                        })
+                                        :
+                                        <Alert severity="info">
+                                            Nothing here...yet!
+                                        </Alert>
+                                }
+                            </List>
+                        </TabPanel>
+                        <TabPanel value='2' >
+                            <List >
+                                {
+                                    profileLikedPosts.length !== 0 ?
+                                        profileLikedPosts.map((post) => {
+                                            return (
+                                                <ListItem key={post.id}>
+                                                    <ListItemAvatar>
+                                                        <Avatar variant='circle'>
+                                                            {post.user.username[0]}
+                                                        </Avatar>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={post.body}
+                                                        secondary={moment(Number(post.createdAt)).fromNow()} />
+                                                    <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                        Post
+                                                    </Button>
+                                                </ListItem>
+                                            )
+                                        })
+                                        :
+                                        <Alert severity="info">
+                                            Nothing here...yet!
+                                        </Alert>
+                                }
+                            </List>
+                        </TabPanel>
+                    </TabContext>
                 </Grid>
             </Grid>
         </Box >

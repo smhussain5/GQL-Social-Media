@@ -8,11 +8,19 @@ export const GET_USER_BY_ID = gql`
             createdAt
             posts {
                 id
+                createdAt
                 body
+                user {
+                    username
+                }
             }
             likedPosts {
                 id
+                createdAt
                 body
+                user {
+                    username
+                }
             }
             followers {
                 id
