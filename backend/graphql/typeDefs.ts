@@ -35,6 +35,7 @@ const typeDefs = gql`
         getAllUsers: [User!]
         getSingleUser(userId: ID!): User
         getAllPosts: [Post!]
+        getUserNewsfeed(userId: ID!): [Post!]
         getSinglePost(postId: ID!): Post
     }
     type Mutation {

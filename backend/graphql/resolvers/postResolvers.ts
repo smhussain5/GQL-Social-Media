@@ -6,6 +6,52 @@ const prisma = new PrismaClient();
 
 const postResolvers = {
     Query: {
+        // GET USER NEWSFEED
+        async getUserNewsfeed(_, { userId }) {
+            try {
+                const followingDataBase = await prisma.user.findUnique({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        following: true,
+                    },
+                    where: {
+                        id: userId,
+                    }
+                });
+                const followingDataBaseArray = [];
+                followingDataBase?.following.forEach((element) => { followingDataBaseArray.push(element.id) });
+                const postsDataBase = await prisma.post.findMany({
+                    relationLoadStrategy: 'join',
+                    include: {
+                        user: true,
+                        replies: true,
+                        likedBy: true,
+                    },
+                    where: {
+                        OR: [
+                            {
+                                user: {
+                                    id: userId
+                                }
+                            },
+                            {
+                                user: {
+                                    id: {
+                                        in: followingDataBaseArray
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    orderBy: [{
+                        createdAt: 'desc'
+                    }]
+                });
+                return postsDataBase;
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        },
         // GET ALL POSTS
         async getAllPosts() {
             try {
