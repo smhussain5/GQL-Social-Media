@@ -33,15 +33,23 @@ const userResolvers = {
                     {
                         relationLoadStrategy: 'join',
                         include: {
-                            posts: true,
-                            likedPosts: true,
+                            posts: {
+                                orderBy: {
+                                    createdAt: 'desc'
+                                }
+                            },
+                            likedPosts: {
+                                orderBy: {
+                                    createdAt: 'desc'
+                                }
+                            },
                             following: true,
                             followers: true,
                             replies: true,
                         },
                         where: {
                             id: userId,
-                        }
+                        },
                     }
                 );
                 return userDataBase;

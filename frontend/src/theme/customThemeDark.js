@@ -3,14 +3,6 @@ import { createTheme } from '@mui/material';
 export const customThemeDark = createTheme({
     palette: {
         mode: 'dark',
-        // TAILWIND SLATE 200
-        primary: {
-            main: '#E2E8F0'
-        },
-        // TAILWIND FUCHSIA 200
-        secondary: {
-            main: '#F5D0FE'
-        },
         // TAILWIND ROSE 200
         error: {
             main: '#FECDD3'

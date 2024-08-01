@@ -52,25 +52,6 @@ const postResolvers = {
                 throw new Error(String(err));
             }
         },
-        // GET ALL POSTS
-        async getAllPosts() {
-            try {
-                const postsDataBase = await prisma.post.findMany({
-                    relationLoadStrategy: 'join',
-                    include: {
-                        user: true,
-                        replies: true,
-                        likedBy: true,
-                    },
-                    orderBy: [{
-                        createdAt: 'desc'
-                    }]
-                });
-                return postsDataBase;
-            } catch (err) {
-                throw new Error(String(err));
-            }
-        },
         // GET POST BY ID
         async getSinglePost(_, { postId }) {
             try {
@@ -83,7 +64,11 @@ const postResolvers = {
                                 createdAt: 'desc'
                             }
                         },
-                        likedBy: true,
+                        likedBy: {
+                            orderBy: {
+                                createdAt: 'desc'
+                            }
+                        }
                     },
                     where: {
                         id: postId,

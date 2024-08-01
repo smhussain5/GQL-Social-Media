@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from '@mui/material';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { GET_ALL_POSTS } from "../graphql/queries/getAllPostsQuery";
+import { GET_USER_NEWSFEED } from "../graphql/queries/getUserNewsfeedQuery";
 import { CREATE_POST } from "../graphql/mutations/createPostMutation";
 import { useMutation } from '@apollo/client';
 
@@ -18,7 +18,7 @@ const PostInputCard = () => {
 
     const [createPostMutation, { data, error }] = useMutation(CREATE_POST, {
         refetchQueries: [
-            GET_ALL_POSTS
+            GET_USER_NEWSFEED
         ],
     });
 

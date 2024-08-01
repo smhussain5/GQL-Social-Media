@@ -1,14 +1,21 @@
 // TODO: USE GRID TO LAYOUT HOMEPAGE
 import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
-import { GET_ALL_POSTS } from '../graphql/queries/getAllPostsQuery';
+import { GET_USER_NEWSFEED } from '../graphql/queries/getUserNewsfeedQuery';
 import { useQuery } from '@apollo/client';
 import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
+import AuthContext from "../context/AuthContext";
 
 export function Home() {
 
-    const { loading, error, data, refetch } = useQuery(GET_ALL_POSTS);
+    const { userContext } = useContext(AuthContext);
+
+    const { loading, error, data, refetch } = useQuery(GET_USER_NEWSFEED, {
+        variables: {
+            "userId": userContext.id
+        },
+    });
 
     useLayoutEffect(() => {
         refetch();
@@ -35,7 +42,7 @@ export function Home() {
                 <Stack spacing={2}>
                     <PostInputCard />
                     <Stack direction={'column'} spacing={2}>
-                        {data.getAllPosts.map((post) => (
+                        {data.getUserNewsfeed.map((post) => (
                             <PostCard key={post.id} data={post} />
                         ))}
                     </Stack>

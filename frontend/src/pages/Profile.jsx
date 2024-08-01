@@ -7,6 +7,7 @@ import {
     Typography
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { ProfileDetail } from '../components/ProfileDetail';
 import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
@@ -15,10 +16,14 @@ export function Profile() {
 
     const { userIdParameter } = useParams();
 
-    const { loading, error, data } = useQuery(GET_USER_BY_ID, {
+    const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
         variables: {
             "userId": userIdParameter
         },
+    });
+
+    useLayoutEffect(() => {
+        refetch();
     });
 
     if (loading) {

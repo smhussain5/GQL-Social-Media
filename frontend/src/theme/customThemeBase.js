@@ -3,14 +3,6 @@ import { createTheme } from '@mui/material';
 export const customThemeBase = createTheme({
     palette: {
         mode: 'light',
-        // TAILWIND SLATE 400
-        primary: {
-            main: '#94A3B8'
-        },
-        // TAILWIND FUCHSIA 400
-        secondary: {
-            main: '#E879F9'
-        },
         // TAILWIND ROSE 400
         error: {
             main: '#FB7185'
