@@ -78,6 +78,28 @@ const postResolvers = {
             } catch (err) {
                 throw new Error(String(err));
             }
+        },
+        // GET POST SEARCH RESULTS
+        async getPostSearchResults(_, { postSearchInput }) {
+            try {
+                const postDataBase = await prisma.post.findMany(
+                    {
+                        relationLoadStrategy: 'join',
+                        include: {
+                            user: true,
+                        },
+                        where: {
+                            body: {
+                                contains: postSearchInput,
+                                mode: 'insensitive'
+                            }
+                        },
+                    }
+                );
+                return postDataBase;
+            } catch (err) {
+                throw new Error(String(err));
+            }
         }
     },
     Mutation: {

@@ -33,6 +33,29 @@ const userResolvers = {
                     {
                         relationLoadStrategy: 'join',
                         include: {
+                            posts: true,
+                            likedPosts: true,
+                            following: true,
+                            followers: true,
+                            replies: true,
+                        },
+                        where: {
+                            id: userId,
+                        },
+                    }
+                );
+                return userDataBase;
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        },
+        // GET USER SEARCH RESULTS
+        async getUserSearchResults(_, { userSearchInput }) {
+            try {
+                const userDataBase = await prisma.user.findMany(
+                    {
+                        relationLoadStrategy: 'join',
+                        include: {
                             posts: {
                                 orderBy: {
                                     createdAt: 'desc'
@@ -48,7 +71,10 @@ const userResolvers = {
                             replies: true,
                         },
                         where: {
-                            id: userId,
+                            username: {
+                                contains: userSearchInput,
+                                mode: 'insensitive'
+                            }
                         },
                     }
                 );
@@ -106,7 +132,7 @@ const userResolvers = {
             )
             return jwtUpdate;
         },
-        // REGSITER NEW USER
+        // REGISTER NEW USER
         async registerUser(_, { registrationInput: { username, password, confirmPassword } }) {
             // VALIDATE VIA registrationValidationChecker() FUNCTION
             const { errors, valid } = registrationValidationChecker(username, password, confirmPassword);
