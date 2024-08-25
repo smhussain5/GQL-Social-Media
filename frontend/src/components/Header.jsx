@@ -5,13 +5,13 @@ import ThemeContext from "../context/ThemeContext.js";
 import { customThemeBase } from "../theme/customThemeBase.js"
 import { customThemeDark } from '../theme/customThemeDark.js';
 import { NavLink, useNavigate } from 'react-router-dom'
-import { AppBar, Button, IconButton, Stack, Switch, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Stack, Switch, Toolbar } from '@mui/material';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import HowToRegRoundedIcon from '@mui/icons-material/HowToRegRounded';
-import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 
 // const pages = ['HOME', 'PROFILE', 'LOGIN', 'REGISTER'];
 
@@ -59,6 +59,7 @@ export const Header = () => {
                         <>
                             <Button variant='text' color='inherit' component={NavLink} to="/" startIcon={<HomeRoundedIcon />}>Home</Button>
                             <Button variant='text' color='inherit' component={NavLink} to={`/users/${userContext.id}`} startIcon={<AccountBoxRoundedIcon />}>Profile</Button>
+                            <Button variant='text' color='inherit' component={NavLink} to={"/search"} startIcon={<SearchRoundedIcon />}>Search</Button>
                             <Button variant='text' color='inherit' onClick={handleLogout} startIcon={<LogoutRoundedIcon />}>Logout</Button>
                         </>
                         :

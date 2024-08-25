@@ -1,4 +1,3 @@
-// TODO: USE GRID TO LAYOUT HOMEPAGE
 import { Alert, AlertTitle, Box, LinearProgress, Stack } from '@mui/material';
 import { GET_USER_NEWSFEED } from '../graphql/queries/getUserNewsfeedQuery';
 import { useQuery } from '@apollo/client';
