@@ -3,6 +3,7 @@ import { GET_USER_NEWSFEED } from '../graphql/queries/getUserNewsfeedQuery';
 import { useQuery } from '@apollo/client';
 import PostCard from '../components/PostCard'
 import PostInputCard from '../components/PostInputCard';
+import FollowAccordion from '../components/FollowAccordion';
 import { useContext, useLayoutEffect } from 'react';
 import AuthContext from "../context/AuthContext";
 
@@ -40,6 +41,7 @@ export function Home() {
             <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
                 <Stack spacing={2}>
                     <PostInputCard />
+                    <FollowAccordion />
                     <Stack direction={'column'} spacing={2}>
                         {data.getUserNewsfeed.map((post) => (
                             <PostCard key={post.id} data={post} />

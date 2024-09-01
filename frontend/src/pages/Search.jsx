@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material';
+import FollowAccordion from '../components/FollowAccordion';
 import SearchForm from '../components/SearchForm';
 import { useParams } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ export function Search() {
 
                     }
                 </Typography>
+                <FollowAccordion />
                 <SearchForm typeParameter={typeParameter} queryParameter={queryParameter} />
             </Stack>
         </Box>

@@ -46,7 +46,7 @@ export const SearchResultsUsers = ({ queryParameter }) => {
         const searchResultsCount = Object.keys(searchResults).length;
 
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={4}>
                 <Stack direction={"column"} spacing={2}>
                     {
                         searchResultsCount > 0 ?

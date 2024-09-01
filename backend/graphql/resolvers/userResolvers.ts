@@ -20,6 +20,12 @@ const userResolvers = {
                         followers: true,
                         replies: true,
                     },
+                    orderBy: [
+                        {
+                            createdAt: 'desc'
+                        }
+                    ],
+                    take: 5,
                 });
                 return usersDataBase;
             } catch (err) {
