@@ -1,5 +1,5 @@
-import { ThemeContextProvider } from "./context/ThemeContextProvider.jsx"
-import { AuthContextProvider } from './context/AuthContextProvider.jsx'
+import { ThemeContextProvider } from './context/ThemeContextProvider.jsx';
+import { AuthContextProvider } from './context/AuthContextProvider.jsx';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';

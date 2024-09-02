@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
 import ThemeContext from "./context/ThemeContext.js";
+import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home.jsx';
@@ -21,19 +22,21 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={themeContext}>
-        <Header />
-        <Routes>
-          <Route path='/' element={userContext.jwtToken ? <Home /> : <Navigate to="/login" replace={true} />} />
-          <Route path='/users/:userIdParameter' element={userContext.jwtToken ? <Profile /> : <Navigate to="/login" replace={true} />} />
-          <Route path='/posts/:postIdParameter' element={userContext.jwtToken ? <Post /> : <Navigate to="/login" replace={true} />} />
-          <Route path='/search' element={userContext.jwtToken ? <Search /> : <Navigate to="/login" replace={true} />} />
-          <Route path='/search/:typeParameter/:queryParameter' element={userContext.jwtToken ? <Search /> : <Navigate to="/login" replace={true} />} />
-          <Route path='/login' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Login />} />
-          <Route path='/register' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Register />} />
-          <Route path='*' element={<Error404 />} />
-        </Routes>
+        <CssBaseline>
+          <Header />
+          <Routes>
+            <Route path='/' element={userContext.jwtToken ? <Home /> : <Navigate to="/login" replace={true} />} />
+            <Route path='/users/:userIdParameter' element={userContext.jwtToken ? <Profile /> : <Navigate to="/login" replace={true} />} />
+            <Route path='/posts/:postIdParameter' element={userContext.jwtToken ? <Post /> : <Navigate to="/login" replace={true} />} />
+            <Route path='/search' element={userContext.jwtToken ? <Search /> : <Navigate to="/login" replace={true} />} />
+            <Route path='/search/:typeParameter/:queryParameter' element={userContext.jwtToken ? <Search /> : <Navigate to="/login" replace={true} />} />
+            <Route path='/login' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Login />} />
+            <Route path='/register' element={userContext.jwtToken ? <Navigate to="/" replace={true} /> : <Register />} />
+            <Route path='*' element={<Error404 />} />
+          </Routes>
+        </CssBaseline>
       </ThemeProvider>
-    </div>
+    </div >
   )
 }
 

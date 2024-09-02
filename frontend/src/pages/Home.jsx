@@ -23,13 +23,13 @@ export function Home() {
 
     if (loading) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <LinearProgress variant='indeterminate' />
             </Box>
         )
     } else if (error) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <Alert variant='standard' severity='error'>
                     <AlertTitle>Error!</AlertTitle>
                     {error.message}
@@ -38,7 +38,7 @@ export function Home() {
         )
     } else {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <Stack spacing={2}>
                     <PostInputCard />
                     <FollowAccordion />

@@ -6,7 +6,7 @@ import {
 
 export function Error404() {
     return (
-        <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+        <Box padding={2}>
             <Stack direction={'column'}>
                 <Typography variant='h4' fontWeight={800}>
                     ERROR 404

@@ -1,6 +1,9 @@
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     Alert,
     Avatar,
     Box,
@@ -29,6 +32,7 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import { useMutation } from '@apollo/client';
 import { FOLLOW_USER } from "../graphql/mutations/followUserMutation";
 import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
@@ -36,16 +40,12 @@ import moment from 'moment';
 
 export const ProfileDetail = ({ data }) => {
 
-    const [value, setValue] = useState('1');
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     const { userContext } = useContext(AuthContext);
 
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
+    const profileFollowing = data.getSingleUser.following;
+    const profileFollowers = data.getSingleUser.followers;
 
     const profileUsername = data.getSingleUser.username;
     const postsCount = data.getSingleUser.posts.length;
@@ -79,8 +79,8 @@ export const ProfileDetail = ({ data }) => {
 
     return (
         <Box>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={3}>
+            <Stack direction={"column"} spacing={2}>
+                <Box>
                     <Card variant='outlined'>
                         <CardContent>
                             <Stack direction={'column'} spacing={2} >
@@ -135,74 +135,162 @@ export const ProfileDetail = ({ data }) => {
                             </Stack>
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid item xs={12} md={9}>
-                    <TabContext value={value}>
-                        <Box>
-                            <TabList onChange={handleChange}>
-                                <Tab label="Posts" value='1' />
-                                <Tab label="Likes" value='2' />
-                            </TabList>
-                        </Box>
-                        <TabPanel value='1' >
-                            <List >
-                                {
-                                    profilePosts.length !== 0 ?
-                                        profilePosts.map((post) => {
-                                            return (
-                                                <ListItem key={post.id}>
-                                                    <ListItemAvatar>
-                                                        <Avatar variant='circle'>
-                                                            {post.user.username[0]}
-                                                        </Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary={post.body}
-                                                        secondary={moment(Number(post.createdAt)).fromNow()} />
-                                                    <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                        Post
-                                                    </Button>
-                                                </ListItem>
-                                            )
-                                        })
-                                        :
-                                        <Alert severity="info">
-                                            Nothing here...yet!
-                                        </Alert>
-                                }
-                            </List>
-                        </TabPanel>
-                        <TabPanel value='2' >
-                            <List >
-                                {
-                                    profileLikedPosts.length !== 0 ?
-                                        profileLikedPosts.map((post) => {
-                                            return (
-                                                <ListItem key={post.id}>
-                                                    <ListItemAvatar>
-                                                        <Avatar variant='circle'>
-                                                            {post.user.username[0]}
-                                                        </Avatar>
-                                                    </ListItemAvatar>
-                                                    <ListItemText
-                                                        primary={post.body}
-                                                        secondary={moment(Number(post.createdAt)).fromNow()} />
-                                                    <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                        Post
-                                                    </Button>
-                                                </ListItem>
-                                            )
-                                        })
-                                        :
-                                        <Alert severity="info">
-                                            Nothing here...yet!
-                                        </Alert>
-                                }
-                            </List>
-                        </TabPanel>
-                    </TabContext>
-                </Grid>
-            </Grid>
+                </Box>
+                <Box>
+                    <Stack direction={"column"}>
+                        <Accordion variant={"outlined"} defaultExpanded>
+                            <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
+                                <Stack direction={"row"} spacing={2}>
+                                    <NotesRoundedIcon color={"success"} />
+                                    <Typography>
+                                        Posts
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <List >
+                                    {
+                                        profilePosts.length !== 0 ?
+                                            profilePosts.map((post) => {
+                                                return (
+                                                    <ListItem key={post.id}>
+                                                        <ListItemAvatar>
+                                                            <Avatar variant='circle'>
+                                                                {post.user.username[0]}
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={post.body}
+                                                            secondary={moment(Number(post.createdAt)).fromNow()} />
+                                                        <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                            Post
+                                                        </Button>
+                                                    </ListItem>
+                                                )
+                                            })
+                                            :
+                                            <Alert severity="info">
+                                                Nothing here...yet!
+                                            </Alert>
+                                    }
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion variant={"outlined"}>
+                            <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
+                                <Stack direction={"row"} spacing={2}>
+                                    <StarRoundedIcon color={"warning"} />
+                                    <Typography>
+                                        Likes
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <List >
+                                    {
+                                        profileLikedPosts.length !== 0 ?
+                                            profileLikedPosts.map((post) => {
+                                                return (
+                                                    <ListItem key={post.id}>
+                                                        <ListItemAvatar>
+                                                            <Avatar variant='circle'>
+                                                                {post.user.username[0]}
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={post.body}
+                                                            secondary={moment(Number(post.createdAt)).fromNow()} />
+                                                        <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                            Post
+                                                        </Button>
+                                                    </ListItem>
+                                                )
+                                            })
+                                            :
+                                            <Alert severity="info">
+                                                Nothing here...yet!
+                                            </Alert>
+                                    }
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion variant={"outlined"}>
+                            <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
+                                <Stack direction={"row"} spacing={2}>
+                                    <GroupsRoundedIcon color={"primary"} />
+                                    <Typography>
+                                        Following
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <List >
+                                    {
+                                        profileFollowing.length !== 0 ?
+                                            profileFollowing.map((following) => {
+                                                return (
+                                                    <ListItem key={following.id}>
+                                                        <ListItemAvatar>
+                                                            <Avatar variant='circle'>
+                                                                {following.username[0]}
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={following.username} />
+                                                        <Button component={RouterLink} to={`/users/${following.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                            Post
+                                                        </Button>
+                                                    </ListItem>
+                                                )
+                                            })
+                                            :
+                                            <Alert severity="info">
+                                                Nothing here...yet!
+                                            </Alert>
+                                    }
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion variant={"outlined"}>
+                            <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
+                                <Stack direction={"row"} spacing={2}>
+                                    <FavoriteRoundedIcon color={"error"} />
+                                    <Typography>
+                                        Followers
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <List >
+                                    {
+                                        profileFollowers.length !== 0 ?
+                                            profileFollowers.map((follower) => {
+                                                return (
+                                                    <ListItem key={follower.id}>
+                                                        <ListItemAvatar>
+                                                            <Avatar variant='circle'>
+                                                                {follower.username[0]}
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={follower.username} />
+                                                        <Button component={RouterLink} to={`/users/${follower.id}`} startIcon={<AccountBoxRoundedIcon />}>
+                                                            Post
+                                                        </Button>
+                                                    </ListItem>
+                                                )
+                                            })
+                                            :
+                                            <Alert severity="info">
+                                                Nothing here...yet!
+                                            </Alert>
+                                    }
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                    </Stack>
+                </Box>
+            </Stack>
         </Box >
     )
 }

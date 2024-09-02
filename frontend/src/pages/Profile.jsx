@@ -3,8 +3,7 @@ import {
     Alert,
     AlertTitle,
     Box,
-    LinearProgress,
-    Typography
+    LinearProgress
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
@@ -28,13 +27,13 @@ export function Profile() {
 
     if (loading) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <LinearProgress variant='indeterminate' />
             </Box>
         )
     } else if (error) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <Alert variant='standard' severity='error'>
                     <AlertTitle>Error!</AlertTitle>
                     {error.message}
@@ -43,11 +42,8 @@ export function Profile() {
         )
     } else {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <ProfileDetail data={data} />
-                <Typography>
-                    {JSON.stringify(data.getSingleUser)}
-                </Typography>
             </Box>
         )
     }
