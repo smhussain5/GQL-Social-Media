@@ -159,7 +159,7 @@ export const ProfileDetail = ({ data }) => {
                                                             primary={post.body}
                                                             secondary={moment(Number(post.createdAt)).fromNow()} />
                                                         <Button component={RouterLink} to={`/posts/${post.id}`}>
-                                                            <ForwardRoundedIcon />
+                                                            <ForwardRoundedIcon color={"secondary"} />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -197,7 +197,7 @@ export const ProfileDetail = ({ data }) => {
                                                             primary={post.body}
                                                             secondary={moment(Number(post.createdAt)).fromNow()} />
                                                         <Button component={RouterLink} to={`/posts/${post.id}`}>
-                                                            <ForwardRoundedIcon />
+                                                            <ForwardRoundedIcon color={"secondary"} />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -234,7 +234,7 @@ export const ProfileDetail = ({ data }) => {
                                                         <ListItemText
                                                             primary={following.username} />
                                                         <Button component={RouterLink} to={`/users/${following.id}`}>
-                                                            <ForwardRoundedIcon />
+                                                            <ForwardRoundedIcon color={"secondary"} />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -271,7 +271,7 @@ export const ProfileDetail = ({ data }) => {
                                                         <ListItemText
                                                             primary={follower.username} />
                                                         <Button component={RouterLink} to={`/users/${follower.id}`}>
-                                                            <ForwardRoundedIcon />
+                                                            <ForwardRoundedIcon color={"secondary"} />
                                                         </Button>
                                                     </ListItem>
                                                 )

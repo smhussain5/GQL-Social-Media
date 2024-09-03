@@ -149,7 +149,7 @@ export const PostDetail = ({ data }) => {
                                             </ListItemAvatar>
                                             <ListItemText primary={user.username} />
                                             <Button component={RouterLink} to={`/users/${user.id}`}>
-                                                <ForwardRoundedIcon />
+                                                <ForwardRoundedIcon color={"secondary"} />
                                             </Button>
                                         </ListItem>
                                     )

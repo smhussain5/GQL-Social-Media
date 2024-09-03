@@ -63,7 +63,7 @@ export const SearchResultsPosts = ({ queryParameter }) => {
                                                     primary={result.body}
                                                 />
                                                 <Button component={RouterLink} to={`/posts/${result.id}`}>
-                                                    <ForwardRoundedIcon />
+                                                    <ForwardRoundedIcon color={"secondary"} />
                                                 </Button>
                                             </ListItem>
                                         )

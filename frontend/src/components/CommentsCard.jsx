@@ -83,7 +83,7 @@ export const CommentsCard = ({ data }) => {
                                                     </Button>
                                                 }
                                                 <Button color="primary" component={RouterLink} to={`/users/${comment.user.id}`} size={"small"}>
-                                                    <ForwardRoundedIcon />
+                                                    <ForwardRoundedIcon color={"secondary"} />
                                                 </Button>
                                             </Stack>
                                         </Grid>

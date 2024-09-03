@@ -74,7 +74,7 @@ export function FollowAccordion() {
                                             primary={user.username}
                                         />
                                         <Button component={RouterLink} to={`/users/${user.id}`}>
-                                            <ForwardRoundedIcon />
+                                            <ForwardRoundedIcon color={"secondary"} />
                                         </Button>
                                     </ListItem>
                                 )
