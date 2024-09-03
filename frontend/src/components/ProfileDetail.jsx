@@ -10,20 +10,15 @@ import {
     Button,
     Chip,
     Card,
-    CardActionArea,
     CardContent,
-    Grid,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     Stack,
-    Tab,
     Typography
 } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Link as RouterLink } from 'react-router-dom';
-import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
@@ -33,6 +28,7 @@ import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 import { useMutation } from '@apollo/client';
 import { FOLLOW_USER } from "../graphql/mutations/followUserMutation";
 import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
@@ -138,7 +134,7 @@ export const ProfileDetail = ({ data }) => {
                 </Box>
                 <Box>
                     <Stack direction={"column"}>
-                        <Accordion variant={"outlined"} defaultExpanded>
+                        <Accordion variant={"outlined"} defaultExpanded square>
                             <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
                                 <Stack direction={"row"} spacing={2}>
                                     <NotesRoundedIcon color={"success"} />
@@ -162,8 +158,8 @@ export const ProfileDetail = ({ data }) => {
                                                         <ListItemText
                                                             primary={post.body}
                                                             secondary={moment(Number(post.createdAt)).fromNow()} />
-                                                        <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                            Post
+                                                        <Button component={RouterLink} to={`/posts/${post.id}`}>
+                                                            <ForwardRoundedIcon />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -176,7 +172,7 @@ export const ProfileDetail = ({ data }) => {
                                 </List>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion variant={"outlined"}>
+                        <Accordion variant={"outlined"} square>
                             <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
                                 <Stack direction={"row"} spacing={2}>
                                     <StarRoundedIcon color={"warning"} />
@@ -200,8 +196,8 @@ export const ProfileDetail = ({ data }) => {
                                                         <ListItemText
                                                             primary={post.body}
                                                             secondary={moment(Number(post.createdAt)).fromNow()} />
-                                                        <Button component={RouterLink} to={`/posts/${post.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                            Post
+                                                        <Button component={RouterLink} to={`/posts/${post.id}`}>
+                                                            <ForwardRoundedIcon />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -214,7 +210,7 @@ export const ProfileDetail = ({ data }) => {
                                 </List>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion variant={"outlined"}>
+                        <Accordion variant={"outlined"} square>
                             <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
                                 <Stack direction={"row"} spacing={2}>
                                     <GroupsRoundedIcon color={"primary"} />
@@ -237,8 +233,8 @@ export const ProfileDetail = ({ data }) => {
                                                         </ListItemAvatar>
                                                         <ListItemText
                                                             primary={following.username} />
-                                                        <Button component={RouterLink} to={`/users/${following.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                            Post
+                                                        <Button component={RouterLink} to={`/users/${following.id}`}>
+                                                            <ForwardRoundedIcon />
                                                         </Button>
                                                     </ListItem>
                                                 )
@@ -251,7 +247,7 @@ export const ProfileDetail = ({ data }) => {
                                 </List>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion variant={"outlined"}>
+                        <Accordion variant={"outlined"} square>
                             <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
                                 <Stack direction={"row"} spacing={2}>
                                     <FavoriteRoundedIcon color={"error"} />
@@ -274,8 +270,8 @@ export const ProfileDetail = ({ data }) => {
                                                         </ListItemAvatar>
                                                         <ListItemText
                                                             primary={follower.username} />
-                                                        <Button component={RouterLink} to={`/users/${follower.id}`} startIcon={<AccountBoxRoundedIcon />}>
-                                                            Post
+                                                        <Button component={RouterLink} to={`/users/${follower.id}`}>
+                                                            <ForwardRoundedIcon />
                                                         </Button>
                                                     </ListItem>
                                                 )

@@ -1,18 +1,17 @@
-import { useState } from 'react';
 import {
     Avatar,
-    Box,
-    Button,
-    Stack,
-    Typography,
     Alert,
     AlertTitle,
+    Box,
+    Button,
     LinearProgress,
     List,
     ListItem,
     ListItemAvatar,
-    ListItemText
+    ListItemText,
+    Stack
 } from "@mui/material";
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 import { useQuery } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { GET_POST_SEARCH } from '../graphql/queries/getPostSearchResults';
@@ -27,13 +26,13 @@ export const SearchResultsPosts = ({ queryParameter }) => {
 
     if (loading) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <LinearProgress variant='indeterminate' />
             </Box>
         )
     } else if (error) {
         return (
-            <Box padding={4} sx={{ bgcolor: 'background.default', height: '100vh' }} >
+            <Box padding={2}>
                 <Alert variant='standard' severity='error'>
                     <AlertTitle>Error!</AlertTitle>
                     {error.message}
@@ -46,7 +45,7 @@ export const SearchResultsPosts = ({ queryParameter }) => {
         const searchResultsCount = Object.keys(searchResults).length;
 
         return (
-            <Box padding={4} >
+            <Box padding={2} >
                 <Stack direction={"column"} spacing={2}>
                     {
                         searchResultsCount > 0 ?
@@ -63,7 +62,9 @@ export const SearchResultsPosts = ({ queryParameter }) => {
                                                 <ListItemText
                                                     primary={result.body}
                                                 />
-                                                <Button component={RouterLink} to={`/posts/${result.id}`}>See post</Button>
+                                                <Button component={RouterLink} to={`/posts/${result.id}`}>
+                                                    <ForwardRoundedIcon />
+                                                </Button>
                                             </ListItem>
                                         )
                                     })

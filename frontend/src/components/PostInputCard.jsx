@@ -41,7 +41,7 @@ const PostInputCard = () => {
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
             <Card variant='outlined'>
                 <Grid container alignItems={'center'}>
-                    <Grid item xs={11}>
+                    <Grid item xs={9} md={10} lg={11}>
                         <CardContent>
                             <TextField
                                 label="Share your thoughts!"
@@ -53,7 +53,7 @@ const PostInputCard = () => {
                             />
                         </CardContent>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item sm={3} md={2} lg={1}>
                         <CardActions>
                             <Button variant='text' disableElevation type="submit">
                                 {watch("post")?.length > 150 ?

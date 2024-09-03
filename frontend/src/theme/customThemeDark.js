@@ -3,45 +3,66 @@ import { createTheme } from '@mui/material';
 export const customThemeDark = createTheme({
     palette: {
         mode: 'dark',
-        // TAILWIND ROSE 200
+        // ATLASSIAN LIME 200
+        primary: {
+            main: '#D3F1A7'
+        },
+        // ATLASSIAN MAGENTA 200
+        secondary: {
+            main: '#FDD0EC'
+        },
+        // ATLASSIAN RED 200
         error: {
-            main: '#FECDD3'
+            main: '#FFD5D2'
         },
-        // TAILWIND YELLOW 200
+        // ATLASSIAN YELLOW 200
         warning: {
-            main: '#FEF08A'
+            main: '#F8E6A0'
         },
-        // TAILWIND CYAN 200
+        // ATLASSIAN TEAL 200
         info: {
-            main: '#A5F3FC'
+            main: '#C6EDFB'
         },
-        // TAILWIND TEAL 200
+        // ATLASSIAN GREEN 200
         success: {
-            main: '#99F6E4'
+            main: '#BAF3DB'
         },
         background: {
-            // TAILWIND ZINC 950
-            default: '#09090B',
-            // TAILWIND ZINC 900
-            paper: '#18181B'
+            // ATLASSIAN DARK NEUTRAL 100
+            default: '#1D2125',
+            // ATLASSIAN DARK NEUTRAL 200
+            paper: '#22272B'
         }
     },
     typography: {
-        fontFamily: 'Roboto'
+        fontFamily: 'IBM Plex Sans'
     },
     components: {
-        MuiFormHelperText: {
+        MuiCard: {
             styleOverrides: {
                 root: {
-                    color: '#fecdd3'
+                    borderRadius: 0,
                 }
             }
         },
-        MuiTypography: {
+        MuiOutlinedInput: {
             styleOverrides: {
                 root: {
-                    // TAILWIND ZINC 200
-                    color: '#E4E4E7'
+                    borderRadius: 0,
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 0,
+                }
+            }
+        },
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: {
+                    color: '#FFD5D2'
                 }
             }
         }

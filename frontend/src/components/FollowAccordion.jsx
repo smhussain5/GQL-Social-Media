@@ -16,6 +16,7 @@ import {
     Stack,
     Typography
 } from "@mui/material";
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import { Link as RouterLink } from "react-router-dom";
@@ -48,7 +49,7 @@ export function FollowAccordion() {
     } else {
         return (
             <Box>
-                <Accordion variant={"outlined"}>
+                <Accordion variant={"outlined"} square>
                     <AccordionSummary expandIcon={<ArrowDropDownRoundedIcon />}>
                         <Stack direction={"row"} spacing={2}>
                             <AutoAwesomeRoundedIcon color={"primary"} />
@@ -72,7 +73,9 @@ export function FollowAccordion() {
                                         <ListItemText
                                             primary={user.username}
                                         />
-                                        <Button component={RouterLink} to={`/users/${user.id}`}>See profile</Button>
+                                        <Button component={RouterLink} to={`/users/${user.id}`}>
+                                            <ForwardRoundedIcon />
+                                        </Button>
                                     </ListItem>
                                 )
                             })}

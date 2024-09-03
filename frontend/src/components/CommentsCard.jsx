@@ -1,10 +1,23 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { Link as RouterLink } from "react-router-dom";
-import { Avatar, AvatarGroup, Box, Button, Card, CardContent, CardHeader, CardActionArea, Stack, Typography, List, ListItem, ListItemText, ListItemAvatar, ListItemButton } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Grid,
+    Stack,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar
+} from '@mui/material';
 import moment from 'moment';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 import { GET_POST_BY_ID } from "../graphql/queries/getPostByIdQuery";
 import { DELETE_REPLY } from "../graphql/mutations/deleteReplyMutation";
 import { useMutation } from '@apollo/client';
@@ -44,33 +57,43 @@ export const CommentsCard = ({ data }) => {
             <Card variant='outlined'>
                 <CardContent>
                     <List>
-                        {data.getSinglePost.replies.map((comment) => {
-                            return (
-                                <ListItem key={comment.id}>
-                                    <ListItemAvatar>
-                                        <Avatar variant='circular'>
-                                            {comment.user.username[0]}
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={comment.body}
-                                        secondary={moment(Number(comment.createdAt)).fromNow()}
-                                    />
-                                    {
-                                        comment.user.username === userContext.username &&
-                                        <Button color="error" onClick={() => { handleReplyDelete(comment) }}>
-                                            <DeleteRoundedIcon />
-                                        </Button>
-                                    }
-                                    <Button startIcon={<AccountBoxRoundedIcon />} color="primary" component={RouterLink} to={`/users/${comment.user.id}`}>
-                                        Profile
-                                    </Button>
-                                </ListItem>
-                            )
-                        })}
+                        <Grid container alignItems={"center"} justifyContent={"end"}>
+                            {data.getSinglePost.replies.map((comment) => {
+                                return (
+                                    <ListItem key={comment.id}>
+                                        <Grid item xs={7} md={10} lg={11}>
+                                            <Stack direction={"row"}>
+                                                <ListItemAvatar>
+                                                    <Avatar variant='circular'>
+                                                        {comment.user.username[0]}
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={comment.body}
+                                                    secondary={moment(Number(comment.createdAt)).fromNow()}
+                                                />
+                                            </Stack>
+                                        </Grid>
+                                        <Grid item xs={5} md={2} lg={1}>
+                                            <Stack direction={"row"}>
+                                                {
+                                                    comment.user.username === userContext.username &&
+                                                    <Button color="error" onClick={() => { handleReplyDelete(comment) }} size={"small"}>
+                                                        <DeleteRoundedIcon />
+                                                    </Button>
+                                                }
+                                                <Button color="primary" component={RouterLink} to={`/users/${comment.user.id}`} size={"small"}>
+                                                    <ForwardRoundedIcon />
+                                                </Button>
+                                            </Stack>
+                                        </Grid>
+                                    </ListItem>
+                                )
+                            })}
+                        </Grid>
                     </List>
                 </CardContent>
-            </Card>
+            </Card >
         </Box >
     )
 }

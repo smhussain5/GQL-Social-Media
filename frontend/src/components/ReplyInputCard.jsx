@@ -1,6 +1,16 @@
 // import React from 'react';
 import { useForm } from "react-hook-form";
-import { Box, Button, Card, CardContent, CardActions, Grid, TextField, Typography, LinearProgress } from "@mui/material";
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardActions,
+    Grid,
+    TextField,
+    Typography,
+    LinearProgress
+} from "@mui/material";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { GET_POST_BY_ID } from '../graphql/queries/getPostByIdQuery';
 import { ADD_COMMENT } from "../graphql/mutations/addCommentMutation";
@@ -42,7 +52,7 @@ export const ReplyInputCard = ({ postIdParameter }) => {
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off" >
             <Card variant='outlined'>
                 <Grid container alignItems={'center'}>
-                    <Grid item xs={11}>
+                    <Grid item xs={9} md={10} lg={11}>
                         <CardContent>
                             <TextField
                                 label="Share your thoughts!"
@@ -54,7 +64,7 @@ export const ReplyInputCard = ({ postIdParameter }) => {
                             />
                         </CardContent>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={3} md={2} lg={1}>
                         <CardActions>
                             <Button variant='text' disableElevation type="submit">
                                 {watch("comment")?.length > 150 ?
