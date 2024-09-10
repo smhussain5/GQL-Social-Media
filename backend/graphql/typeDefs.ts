@@ -48,6 +48,7 @@ const typeDefs = gql`
         followUser(userId: ID!): String!
         createReply(replyInput: ReplyInput): Reply!
         deleteReply(replyId: ID!): String!
+        deleteUser(userId: ID!): String!
     }
     input RegistrationInput {
         username: String!

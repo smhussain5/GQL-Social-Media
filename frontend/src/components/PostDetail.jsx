@@ -23,7 +23,6 @@ import {
     Stack,
     Typography
 } from '@mui/material';
-import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';

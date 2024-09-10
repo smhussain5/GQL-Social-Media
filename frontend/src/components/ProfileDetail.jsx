@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import {
     Accordion,
@@ -18,7 +18,7 @@ import {
     Stack,
     Typography
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import HandshakeRoundedIcon from '@mui/icons-material/HandshakeRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
@@ -29,14 +29,18 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
+import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import { useMutation } from '@apollo/client';
 import { FOLLOW_USER } from "../graphql/mutations/followUserMutation";
+import { DELETE_USER } from "../graphql/mutations/deleteUser";
 import { GET_USER_BY_ID } from "../graphql/queries/getUserByIdQuery";
 import moment from 'moment';
 
 export const ProfileDetail = ({ data }) => {
 
-    const { userContext } = useContext(AuthContext);
+    const { userContext, setUserContext } = useContext(AuthContext);
+
+    const navigateTo = useNavigate();
 
     const profilePosts = data.getSingleUser.posts;
     const profileLikedPosts = data.getSingleUser.likedPosts;
@@ -50,16 +54,18 @@ export const ProfileDetail = ({ data }) => {
     const followersCount = data.getSingleUser.followers.length;
     const joinDate = data.getSingleUser.createdAt;
 
-    const isMyProfile = data.getSingleUser.username !== userContext.username;
+    const isMyProfile = data.getSingleUser.username === userContext.username;
     const isFollowingThisUser = data.getSingleUser.followers.find((obj) => obj.username === userContext.username);
     const isFollowedByThisUser = data.getSingleUser.following.find((obj) => obj.username === userContext.username);
     const isMutualFollowing = isFollowingThisUser && isFollowedByThisUser;
 
-    const [followUserMutation, { error }] = useMutation(FOLLOW_USER, {
+    const [followUserMutation, { error: followUserError }] = useMutation(FOLLOW_USER, {
         refetchQueries: [
             GET_USER_BY_ID
         ],
-    })
+    });
+
+    const [deleteUserMutation, { error: deleteUserError }] = useMutation(DELETE_USER);
 
     const handleFollowUser = async () => {
         try {
@@ -68,8 +74,35 @@ export const ProfileDetail = ({ data }) => {
                     "userId": data.getSingleUser.id
                 }
             });
-        } catch (error) {
-            alert(JSON.stringify(error.graphQLErrors[0].extensions.errors, null, 2));
+        } catch (followUserError) {
+            alert(JSON.stringify(followUserError.graphQLErrors[0].extensions.errors, null, 2));
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        if (confirm("Are you sure? This action cannot be undone!")) {
+            if (confirm("Are you ABSOLUTELY sure? Again, this action CANNOT be undone!")) {
+                try {
+                    await deleteUserMutation({
+                        variables: {
+                            "userId": data.getSingleUser.id
+                        }
+                    });
+                    setUserContext({
+                        id: "",
+                        username: "",
+                        jwtToken: ""
+                    });
+                    localStorage.removeItem("jwtToken");
+                    navigateTo("/login");
+                } catch (deleteUserError) {
+                    alert(JSON.stringify(deleteUserError.graphQLErrors[0].extensions.errors, null, 2));
+                }
+            } else {
+                return;
+            }
+        } else {
+            return;
         }
     }
 
@@ -80,16 +113,24 @@ export const ProfileDetail = ({ data }) => {
                     <Card variant='outlined'>
                         <CardContent>
                             <Stack direction={'column'} spacing={2} >
-                                <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                                    <Avatar variant='circular'>
-                                        {profileUsername[0]}
-                                    </Avatar>
-                                    <Typography fontWeight={'bold'}>
-                                        {profileUsername}
-                                    </Typography>
+                                <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent={"space-between"}>
+                                    <Stack direction={"row"} spacing={2} alignItems={'center'} >
+                                        <Avatar variant='circular'>
+                                            {profileUsername[0]}
+                                        </Avatar>
+                                        <Typography fontWeight={'bold'}>
+                                            {profileUsername}
+                                        </Typography>
+                                        {
+                                            isMutualFollowing &&
+                                            <Chip label='Mutuals!' icon={<HandshakeRoundedIcon />} color='info' variant='outlined' />
+                                        }
+                                    </Stack>
                                     {
-                                        isMutualFollowing &&
-                                        <Chip label='Mutuals!' icon={<HandshakeRoundedIcon />} color='info' variant='outlined' />
+                                        isMyProfile &&
+                                        <Button>
+                                            <RemoveCircleRoundedIcon color={"error"} onClick={isMyProfile ? handleDeleteUser : undefined} />
+                                        </Button>
                                     }
                                 </Stack>
                                 <Stack direction={'row'} spacing={2} alignItems={'center'} >
@@ -123,7 +164,7 @@ export const ProfileDetail = ({ data }) => {
                                     </Typography>
                                 </Stack>
                                 {
-                                    isMyProfile &&
+                                    !isMyProfile &&
                                     <Button startIcon={isFollowingThisUser ? <RemoveRoundedIcon /> : <AddRoundedIcon />} variant={isFollowingThisUser ? 'outlined' : 'contained'} color={isFollowingThisUser ? 'error' : 'primary'} disableElevation onClick={handleFollowUser}>
                                         {isFollowingThisUser ? 'Unfollow' : 'Follow'}
                                     </Button>

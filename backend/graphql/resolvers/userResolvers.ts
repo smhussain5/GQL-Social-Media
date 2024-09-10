@@ -184,6 +184,29 @@ const userResolvers = {
                 throw new Error(String(err));
             }
         },
+        async deleteUser(_, { userId }, context) {
+            // CHECK IF PROPER AUTH
+            const userViaAuthHeader = checkAuthentication(context);
+            try {
+                // CHECK IF USER EXISTS IN DATABASE
+                const userDataBase = await prisma.user.findUnique({
+                    where: {
+                        id: userViaAuthHeader.id,
+                    }
+                });
+                // DELETE USER
+                if (userDataBase) {
+                    await prisma.user.delete({
+                        where: {
+                            id: userId
+                        }
+                    });
+                    return "Successful!";
+                }
+            } catch (err) {
+                throw new Error(String(err));
+            }
+        },
         async followUser(_, { userId }, context) {
             // CHECK IF PROPER AUTH
             const userViaAuthHeader = checkAuthentication(context);

@@ -98,7 +98,7 @@ export const Header = () => {
                             onClose={handleCloseNavMenu}
                         >
                             {userContext.jwtToken ?
-                                <>
+                                <Box>
                                     <MenuItem component={NavLink} to="/">
                                         <Stack direction={'row'} spacing={2}>
                                             <HomeRoundedIcon />
@@ -131,9 +131,9 @@ export const Header = () => {
                                             </Typography>
                                         </Stack>
                                     </MenuItem>
-                                </>
+                                </Box>
                                 :
-                                <>
+                                <Box>
                                     <MenuItem component={NavLink} to="/login">
                                         <Stack direction={'row'} spacing={2}>
                                             <LoginRoundedIcon />
@@ -150,7 +150,7 @@ export const Header = () => {
                                             </Typography>
                                         </Stack>
                                     </MenuItem>
-                                </>
+                                </Box>
                             }
                             <Divider />
                             <Switch onChange={handleThemeChange} size={"medium"} />
@@ -162,4 +162,4 @@ export const Header = () => {
     );
 }
 
-export default Header
+export default Header;
